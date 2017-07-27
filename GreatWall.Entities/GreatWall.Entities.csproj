@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\TechProducts\Processor.cs" />
+    <Compile Include="Enumerations\Category.cs" />
+    <Compile Include="Enumerations\ComputerSubCategory.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />
     <Compile Include="Interfaces\TechInterfaces\IDisplay.cs" />

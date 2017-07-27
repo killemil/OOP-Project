@@ -1,7 +1,10 @@
 ﻿
 namespace GreatWall.Client.Core
 {
+    using GreatWall.Entities.Enumerations;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class Engine
     {
@@ -21,8 +24,12 @@ namespace GreatWall.Client.Core
         public void Run()
         {
             this.ConsoleSize();
+            ShowMenu(this.menuItems, "mainMenu");
+        }
 
-            int pageSize = 4;
+        private void ShowMenu(IList<string> list, string menu)
+        {
+            int pageSize = list.Count;
             int pointer = 1;
             while (true)
             {
@@ -35,7 +42,7 @@ namespace GreatWall.Client.Core
 
                 int current = 1;
                 Console.CursorTop = 10;
-                foreach (var item in menuItems)
+                foreach (var item in list)
                 {
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
@@ -54,7 +61,7 @@ namespace GreatWall.Client.Core
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        //ShowOtherMenu(pointer);
+                        ShowOtherMenu(pointer, menu);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -63,7 +70,7 @@ namespace GreatWall.Client.Core
                         }
                         else if (pointer <= 1)
                         {
-                            pointer = 4;
+                            pointer = list.Count;
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -77,8 +84,36 @@ namespace GreatWall.Client.Core
                         }
                         break;
                     case ConsoleKey.Escape:
-                        Environment.Exit(0);
-                        return;
+                        ShowMenu(this.menuItems, "mainMenu");
+                        break;
+                }
+            }
+        }
+
+        private void ShowOtherMenu(int currentSelection, string menu)
+        {
+            if (menu == "mainMenu")
+            {
+                if (currentSelection == 1)
+                {
+                    var categories = Enum.GetValues(typeof(Category))
+                                        .OfType<Category>()
+                                        .Select(c => c.ToString())
+                                        .ToList();
+
+                    ShowMenu(categories, "subCategory");
+                }
+            }
+            else if (menu == "subCategory")
+            {
+                if (currentSelection == 1)
+                {
+                    var subCategories = Enum.GetValues(typeof(ComputerSubCategory))
+                        .OfType<ComputerSubCategory>()
+                        .Select(sc => sc.ToString())
+                        .ToList();
+
+                    ShowMenu(subCategories, "addProduct");
                 }
             }
         }
