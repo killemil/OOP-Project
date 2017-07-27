@@ -43,11 +43,12 @@
     <Compile Include="Entities\TechProducts\Processor.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />
-    <Compile Include="Interfaces\TechInterfaces\IComputer.cs" />
     <Compile Include="Interfaces\TechInterfaces\IDisplay.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IHardDrive.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMemory.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMotherboard.cs" />
     <Compile Include="Interfaces\TechInterfaces\IPhone.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IPowerSupply.cs" />
     <Compile Include="Interfaces\TechInterfaces\IProcessor.cs" />
     <Compile Include="Interfaces\TechInterfaces\IGraphicCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

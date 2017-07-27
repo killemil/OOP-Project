@@ -2,7 +2,7 @@
 {
     public interface IProduct
     {
-        string Name { get; }
+        string Model { get; }
 
         string Manufacturer { get; }
 
