@@ -115,6 +115,33 @@ namespace GreatWall.Client.Core
 
                     ShowMenu(subCategories, "addProduct");
                 }
+                else if(currentSelection == 2)
+                {
+                    var subCategories = Enum.GetValues(typeof(TVSubCategory))
+                        .OfType<TVSubCategory>()
+                        .Select(sc => sc.ToString())
+                        .ToList();
+
+                    ShowMenu(subCategories, "addProduct");
+                }
+                else if (currentSelection == 3)
+                {
+                    var subCategories = Enum.GetValues(typeof(CameraSubCategory))
+                        .OfType<CameraSubCategory>()
+                        .Select(sc => sc.ToString())
+                        .ToList();
+
+                    ShowMenu(subCategories, "addProduct");
+                }
+                else if (currentSelection == 4)
+                {
+                    var subCategories = Enum.GetValues(typeof(PhoneSubCategory))
+                        .OfType<PhoneSubCategory>()
+                        .Select(sc => sc.ToString())
+                        .ToList();
+
+                    ShowMenu(subCategories, "addProduct");
+                }
             }
         }
 

@@ -4,6 +4,7 @@
     {
         Computers,
         TVs,
+        Camera,
         Phones,
         Furnittures,
         Dresses

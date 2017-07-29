@@ -41,14 +41,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\TechProducts\Processor.cs" />
+    <Compile Include="Enumerations\CameraSubCategory.cs" />
     <Compile Include="Enumerations\Category.cs" />
     <Compile Include="Enumerations\ComputerSubCategory.cs" />
+    <Compile Include="Enumerations\PhoneSubCategory.cs" />
+    <Compile Include="Enumerations\TVSubCategory.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
+    <Compile Include="Interfaces\TechInterfaces\I3DGlasses.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />
     <Compile Include="Interfaces\TechInterfaces\IDisplay.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IExternalFlashDrive.cs" />
     <Compile Include="Interfaces\TechInterfaces\IHardDrive.cs" />
+    <Compile Include="Interfaces\TechInterfaces\ILens.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMemory.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMotherboard.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IOperationalSystem.cs" />
     <Compile Include="Interfaces\TechInterfaces\IPhone.cs" />
     <Compile Include="Interfaces\TechInterfaces\IPowerSupply.cs" />
     <Compile Include="Interfaces\TechInterfaces\IProcessor.cs" />
