@@ -1,4 +1,6 @@
-﻿namespace GreatWall.Entities.Interfaces
+﻿using GreatWall.Entities.Enumerations;
+
+namespace GreatWall.Entities.Interfaces
 {
     public interface IProduct
     {
@@ -15,5 +17,9 @@
         double Weight { get; }
 
         string Size { get; }
+
+        Category Category { get; }
+
+        SubCategory SubCategory { get; }
     }
 }

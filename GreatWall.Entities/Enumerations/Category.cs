@@ -2,10 +2,10 @@
 {
     public enum Category
     {
-        Computers,
-        TVs,
-        Phones,
-        Furnittures,
-        Dresses
+        Computers = 1,
+        TVs = 2,
+        Phones = 3,
+        Furnittures = 4,
+        Dresses = 5
     }
 }

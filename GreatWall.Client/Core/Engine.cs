@@ -1,7 +1,9 @@
 ﻿
 namespace GreatWall.Client.Core
 {
+    using GreatWall.Client.Factory;
     using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +11,8 @@ namespace GreatWall.Client.Core
     public class Engine
     {
         private string[] menuItems;
+        private IList<IProduct> products;
+        private string[] initialProductData;
 
         public Engine()
         {
@@ -19,6 +23,17 @@ namespace GreatWall.Client.Core
                 "About",
                 "Exit"
             };
+            this.initialProductData = new string[]
+            {
+                 "Model: ",
+                 "Manufacturer: ",
+                 "Quantity: ",
+                 "Price: ",
+                 "Color: ",
+                 "Weight: ",
+                 "Size: "
+            };
+            this.products = new List<IProduct>();
         }
 
         public void Run()
@@ -27,7 +42,7 @@ namespace GreatWall.Client.Core
             ShowMenu(this.menuItems, "mainMenu");
         }
 
-        private void ShowMenu(IList<string> list, string menu)
+        private void ShowMenu(IList<string> list, string menu, params int[] categoryNumber)
         {
             int pageSize = list.Count;
             int pointer = 1;
@@ -61,7 +76,7 @@ namespace GreatWall.Client.Core
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        ShowOtherMenu(pointer, menu);
+                        ShowOtherMenu(pointer, menu, categoryNumber);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -90,7 +105,7 @@ namespace GreatWall.Client.Core
             }
         }
 
-        private void ShowOtherMenu(int currentSelection, string menu)
+        private void ShowOtherMenu(int currentSelection, string menu, params int[] categoryNumber)
         {
             if (menu == "mainMenu")
             {
@@ -101,29 +116,59 @@ namespace GreatWall.Client.Core
                                         .Select(c => c.ToString())
                                         .ToList();
 
-                    ShowMenu(categories, "subCategory");
+                    ShowMenu(categories, "subCategory", currentSelection);
                 }
             }
             else if (menu == "subCategory")
             {
-                if (currentSelection == 1)
-                {
-                    var subCategories = Enum.GetValues(typeof(ComputerSubCategory))
-                        .OfType<ComputerSubCategory>()
-                        .Select(sc => sc.ToString())
-                        .ToList();
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Select(sc => sc.ToString())
+                    .ToList();
 
-                    ShowMenu(subCategories, "addProduct");
-                }
+                ShowMenu(subCategories, "addProduct", currentSelection);
             }
+            else if (menu == "addProduct")
+            {
+                Console.CursorVisible = false;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Category category = (Category)categoryNumber[0];
+                SubCategory subCategory = (SubCategory)currentSelection;
+
+                AddProduct(category, subCategory);
+            }
+        }
+
+        private void AddProduct(Category category, SubCategory subCategory)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Add product to Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
+            IList<string> initialData = new List<string>();
+
+            for (int i = 0; i < this.initialProductData.Length; i++)
+            {
+                Console.Write(this.initialProductData[i]);
+                initialData.Add(Console.ReadLine());
+            }
+
+            this.products.Add(ProductFactory.GetProduct(category, subCategory, initialData));
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine();
+            Console.WriteLine("Succesfully added a product");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+
+            this.Run();
         }
 
         private void ConsoleSize()
         {
             Console.WindowHeight = 25;
             Console.BufferHeight = 25;
-            Console.WindowWidth = 55;
-            Console.BufferWidth = 55;
+            Console.WindowWidth = 70;
+            Console.BufferWidth = 70;
         }
     }
 }
