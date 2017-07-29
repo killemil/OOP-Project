@@ -1,9 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts
 {
+    using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public  class PortableColumn:IProduct,IAudio
+    public class PortableColumn : IProduct, IAudio
     {
         private string model;
         private string manufacturer;
@@ -19,11 +20,10 @@
         private bool microphone;
         private bool radio;
         private bool bluetooth;
+        private Category category;
+        private SubCategory subCategory;
 
-        
-
-
-        public PortableColumn(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, bool usb,bool bluetooth,bool microphone,bool radio)
+        public PortableColumn(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, bool usb, bool bluetooth, bool microphone, bool radio, Category category, SubCategory subCategory)
         {
             this.Model = model;
             this.Manufacturer = manufacturer;
@@ -39,6 +39,8 @@
             this.Microphone = microphone;
             this.Radio = radio;
             this.Bluetooth = bluetooth;
+            this.Category = category;
+            this.SubCategory = subCategory;
         }
 
         public bool Bluetooth
@@ -126,5 +128,28 @@
             set { model = value; }
         }
 
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
+            }
+        }
     }
 }

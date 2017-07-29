@@ -1,5 +1,7 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts
 {
+    using System;
+    using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
@@ -16,8 +18,10 @@
         private double signalFrequency;
         private double sensitivity;
         private string signalType;
-        
-        public Amplifier(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity,string signalType)
+        private Category category;
+        private SubCategory subCategory;
+
+        public Amplifier(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, string signalType, Category category, SubCategory subCategory)
         {
             this.Model = model;
             this.Manufacturer = manufacturer;
@@ -30,6 +34,9 @@
             this.SignalFrequency = signalFrequency;
             this.Sensitivity = sensitivity;
             this.SignalType = signalType;
+            this.SubCategory = subCategory;
+            this.Category = category;
+
         }
 
         public string SignalType
@@ -99,5 +106,28 @@
             set { model = value; }
         }
 
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
+            }
+        }
     }
 }

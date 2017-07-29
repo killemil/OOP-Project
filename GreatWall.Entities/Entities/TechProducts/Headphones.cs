@@ -1,8 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts
 {
+    using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    public class Headphones: IProduct,IAudio
+    public class Headphones : IProduct, IAudio
     {
         private string model;
         private string manufacturer;
@@ -15,8 +16,10 @@
         private double signalFrequency;
         private double sensitivity;
         private bool usb;
+        private Category category;
+        private SubCategory subCategory;
 
-        public Headphones(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity,bool usb)
+        public Headphones(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, bool usb, Category category, SubCategory subCategory)
         {
             this.Model = model;
             this.Manufacturer = manufacturer;
@@ -29,6 +32,8 @@
             this.SignalFrequency = signalFrequency;
             this.Sensitivity = sensitivity;
             this.USB = usb;
+            this.Category = category;
+            this.SubCategory = subCategory;
         }
 
         public bool USB
@@ -97,5 +102,29 @@
             set { model = value; }
         }
 
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
+            }
+
+        }
     }
 }

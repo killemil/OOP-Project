@@ -3,11 +3,12 @@ namespace GreatWall.Entities.Entities.TechProducts
 {
     using GreatWall.Entities.Interfaces.TechInterfaces;
     using GreatWall.Entities.Interfaces;
-    
-    public class Column : IProduct,IAudio
+    using GreatWall.Entities.Enumerations;
+
+    public class Column : IProduct, IAudio
     {
-        private string  model;
-        private string  manufacturer;
+        private string model;
+        private string manufacturer;
         private int quantity;
         private decimal priceDecimal;
         private string color;
@@ -16,8 +17,11 @@ namespace GreatWall.Entities.Entities.TechProducts
         private int power;
         private double signalFrequency;
         private double sensitivity;
-        
-        public Column(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity)
+        private Category category;
+        private SubCategory subCategory;
+
+
+        public Column(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, Category category, SubCategory subCategory)
         {
             this.Model = model;
             this.Manufacturer = manufacturer;
@@ -29,6 +33,8 @@ namespace GreatWall.Entities.Entities.TechProducts
             this.Power = power;
             this.SignalFrequency = signalFrequency;
             this.Sensitivity = sensitivity;
+            this.Category = category;
+            this.SubCategory = subCategory;
         }
 
         public double Sensitivity
@@ -85,12 +91,36 @@ namespace GreatWall.Entities.Entities.TechProducts
             get { return manufacturer; }
             set { manufacturer = value; }
         }
-        
-        public string  Model
+
+        public string Model
         {
             get { return model; }
             set { model = value; }
         }
-        
+
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
+            }
+
+        }
     }
 }

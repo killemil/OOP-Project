@@ -1,7 +1,8 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts
 {
+    using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    public class MediaPlayer:IProduct
+    public class MediaPlayer : IProduct
     {
         private string model;
         private string manufacturer;
@@ -14,8 +15,10 @@
         private int capacity;
         private string resolution;
         private bool radio;
+        private Category category;
+        private SubCategory subCategory;
 
-        public MediaPlayer(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, string type,int capacity,string resolution,bool radio)
+        public MediaPlayer(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, string type, int capacity, string resolution, bool radio, Category category, SubCategory subCategory)
         {
             this.Model = model;
             this.Manufacturer = manufacturer;
@@ -28,6 +31,8 @@
             this.Capacity = capacity;
             this.Resolution = resolution;
             this.Radio = radio;
+            this.Category = category;
+            this.SubCategory = subCategory;
         }
 
 
@@ -98,6 +103,30 @@
             set { model = value; }
         }
 
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
+            }
+
+        }
     }
 }
 
