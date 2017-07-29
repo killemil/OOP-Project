@@ -1,11 +1,11 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts
 {
     using System;
+    using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Processor : IProcessor
     {
-        private string name;
         private string manufacturer;
         private int quantity;
         private decimal price;
@@ -15,10 +15,11 @@
         private int cores;
         private double weight;
         private string size;
+        private Category category;
+        private SubCategory subCategory;
 
-        public Processor(string name, string manufacturer, int quantity, decimal price, string color, string model, string capacity, int cores, double weight, string size)
+        public Processor(string manufacturer, int quantity, decimal price, string color, string model, string capacity, int cores, double weight, string size, Category category, SubCategory subCategory)
         {
-            this.Name = name;
             this.Manufacturer = manufacturer;
             this.Quantity = quantity;
             this.Price = price;
@@ -28,6 +29,8 @@
             this.Cores = cores;
             this.Weight = weight;
             this.Size = size;
+            this.Category = Category;
+            this.SubCategory = SubCategory;
         }
 
         public string Model
@@ -46,12 +49,6 @@
         {
             get { return this.cores; }
             private set { this.cores = value; }
-        }
-
-        public string Name
-        {
-            get { return this.name; }
-            private set { this.name = value; }
         }
 
         public string Manufacturer
@@ -123,6 +120,30 @@
             private set
             {
                 this.size = value;
+            }
+        }
+
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            private set
+            {
+                this.category = value;
+            }
+        }
+
+        public SubCategory SubCategory
+        {
+            get
+            {
+                return this.subCategory;
+            }
+            private set
+            {
+                this.subCategory = value;
             }
         }
     }

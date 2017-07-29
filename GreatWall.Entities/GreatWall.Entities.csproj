@@ -47,7 +47,7 @@
     <Compile Include="Entities\TechProducts\Processor.cs" />
     <Compile Include="Entities\TechProducts\PortableColumn.cs" />
     <Compile Include="Enumerations\Category.cs" />
-    <Compile Include="Enumerations\ComputerSubCategory.cs" />
+    <Compile Include="Enumerations\SubCategory.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Interfaces\TechInterfaces\IAudio.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />
