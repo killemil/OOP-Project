@@ -126,6 +126,7 @@ namespace GreatWall.Client.Core
                     .Select(sc => sc.ToString())
                     .ToList();
 
+
                 ShowMenu(subCategories, "addProduct", currentSelection);
             }
             else if (menu == "addProduct")
