@@ -3,40 +3,19 @@
     using System;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using GreatWall.Entities.Interfaces;
 
-    public class Processor : IProcessor
+    public class Processor : Product, IProcessor
     {
-        private string manufacturer;
-        private int quantity;
-        private decimal price;
-        private string color;
-        private string model;
         private string capacity;
         private int cores;
-        private double weight;
-        private string size;
-        private Category category;
-        private SubCategory subCategory;
 
         public Processor(string manufacturer, int quantity, decimal price, string color, string model, string capacity, int cores, double weight, string size, Category category, SubCategory subCategory)
+            : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
-            this.Manufacturer = manufacturer;
-            this.Quantity = quantity;
-            this.Price = price;
-            this.Color = color;
-            this.Model = model;
+
             this.Capacity = capacity;
             this.Cores = cores;
-            this.Weight = weight;
-            this.Size = size;
-            this.Category = Category;
-            this.SubCategory = SubCategory;
-        }
-
-        public string Model
-        {
-            get { return this.model; }
-            private set { this.model = value; }
         }
 
         public string Capacity
@@ -49,102 +28,6 @@
         {
             get { return this.cores; }
             private set { this.cores = value; }
-        }
-
-        public string Manufacturer
-        {
-            get
-            {
-                return this.manufacturer;
-            }
-            private set
-            {
-                this.manufacturer = value;
-            }
-        }
-
-        public int Quantity
-        {
-            get
-            {
-                return this.quantity;
-            }
-            private set
-            {
-                this.quantity = value;
-            }
-        }
-
-        public decimal Price
-        {
-            get
-            {
-                return this.price;
-            }
-            private set
-            {
-                this.price = value;
-            }
-        }
-
-        public string Color
-        {
-            get
-            {
-                return this.color;
-            }
-            private set
-            {
-                this.color = value;
-            }
-        }
-
-        public double Weight
-        {
-            get
-            {
-                return this.weight;
-            }
-            private set
-            {
-                this.weight = value;
-            }
-        }
-
-        public string Size
-        {
-            get
-            {
-                return this.size;
-            }
-            private set
-            {
-                this.size = value;
-            }
-        }
-
-        public Category Category
-        {
-            get
-            {
-                return this.category;
-            }
-            private set
-            {
-                this.category = value;
-            }
-        }
-
-        public SubCategory SubCategory
-        {
-            get
-            {
-                return this.subCategory;
-            }
-            private set
-            {
-                this.subCategory = value;
-            }
         }
     }
 }

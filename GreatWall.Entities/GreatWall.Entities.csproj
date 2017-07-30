@@ -42,10 +42,15 @@
   <ItemGroup>
     <Compile Include="Entities\TechProducts\Amplifier.cs" />
     <Compile Include="Entities\TechProducts\Headphones.cs" />
-    <Compile Include="Entities\TechProducts\Column.cs" />
-    <Compile Include="Entities\TechProducts\Laptop.cs" />
+    <Compile Include="Entities\TechProducts\Speaker.cs" />
     <Compile Include="Entities\TechProducts\MediaPlayer.cs" />
     <Compile Include="Entities\TechProducts\Processor.cs" />
+    <Compile Include="Enumerations\Category.cs" />
+    <Compile Include="Enumerations\SubCategory.cs" />
+    <Compile Include="Interfaces\IProduct.cs" />
+    <Compile Include="Interfaces\Product.cs" />
+    <Compile Include="Interfaces\TechInterfaces\I3DGlasses.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IAudio.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />
     <Compile Include="Interfaces\TechInterfaces\IDisplay.cs" />
     <Compile Include="Interfaces\TechInterfaces\IExternalFlashDrive.cs" />
@@ -53,6 +58,7 @@
     <Compile Include="Interfaces\TechInterfaces\ILens.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMemory.cs" />
     <Compile Include="Interfaces\TechInterfaces\IMotherboard.cs" />
+    <Compile Include="Interfaces\TechInterfaces\IMediaPlayer.cs" />
     <Compile Include="Interfaces\TechInterfaces\IOperationalSystem.cs" />
     <Compile Include="Interfaces\TechInterfaces\IPhone.cs" />
     <Compile Include="Interfaces\TechInterfaces\IPowerSupply.cs" />

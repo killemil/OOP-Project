@@ -110,23 +110,14 @@
             {
                 if (currentSelection == 1)
                 {
-                    var categories = Enum.GetValues(typeof(Category))
-                                        .OfType<Category>()
-                                        .Select(c => c.ToString())
-                                        .ToList();
+                    string[] categories = Enum.GetNames(typeof(Category));
 
                     ShowMenu(categories, "subCategory", currentSelection);
                 }
             }
             else if (menu == "subCategory")
             {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Select(sc => sc.ToString())
-                    .ToList();
-
-
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                SelectSubCategories(currentSelection);
             }
             else if (menu == "addProduct")
             {
@@ -137,6 +128,60 @@
                 SubCategory subCategory = (SubCategory)currentSelection;
 
                 AddProduct(category, subCategory);
+            }
+        }
+
+        private void SelectSubCategories(int currentSelection)
+        {
+            if (currentSelection == 1)
+            {
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Where(c => (int)c < 50)
+                    .Select(sc => sc.ToString())
+                    .ToList();
+
+                ShowMenu(subCategories, "addProduct", currentSelection);
+            }
+            else if (currentSelection == 2)
+            {
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Where(c => (int)c < 150 && (int)c >= 100)
+                    .Select(sc => sc.ToString())
+                    .ToList();
+
+                ShowMenu(subCategories, "addProduct", currentSelection);
+            }
+            else if (currentSelection == 3)
+            {
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Where(c => (int)c < 100 && (int)c >= 50)
+                    .Select(sc => sc.ToString())
+                    .ToList();
+
+                ShowMenu(subCategories, "addProduct", currentSelection);
+            }
+            else if (currentSelection == 4)
+            {
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Where(c => (int)c < 200 && (int)c >= 150)
+                    .Select(sc => sc.ToString())
+                    .ToList();
+
+                ShowMenu(subCategories, "addProduct", currentSelection);
+            }
+            else if (currentSelection == 5)
+            {
+                var subCategories = Enum.GetValues(typeof(SubCategory))
+                    .OfType<SubCategory>()
+                    .Where(c => (int)c < 250 && (int)c >= 200)
+                    .Select(sc => sc.ToString())
+                    .ToList();
+
+                ShowMenu(subCategories, "addProduct", currentSelection);
             }
         }
 
