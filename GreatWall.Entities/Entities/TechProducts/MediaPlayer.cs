@@ -125,7 +125,6 @@
             {
                 this.subCategory = value;
             }
-
         }
     }
 }

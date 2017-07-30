@@ -1,5 +1,4 @@
-﻿
-namespace GreatWall.Entities.Entities.TechProducts
+﻿namespace GreatWall.Entities.Entities.TechProducts
 {
     using GreatWall.Entities.Interfaces.TechInterfaces;
     using GreatWall.Entities.Interfaces;
@@ -120,7 +119,6 @@ namespace GreatWall.Entities.Entities.TechProducts
             {
                 this.subCategory = value;
             }
-
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace GreatWall.Client.Core
+﻿namespace GreatWall.Client.Core
 {
     using GreatWall.Client.Factory;
     using GreatWall.Entities.Enumerations;

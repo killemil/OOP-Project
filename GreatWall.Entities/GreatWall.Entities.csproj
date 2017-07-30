@@ -43,6 +43,7 @@
     <Compile Include="Entities\TechProducts\Amplifier.cs" />
     <Compile Include="Entities\TechProducts\Headphones.cs" />
     <Compile Include="Entities\TechProducts\Column.cs" />
+    <Compile Include="Entities\TechProducts\Laptop.cs" />
     <Compile Include="Entities\TechProducts\MediaPlayer.cs" />
     <Compile Include="Entities\TechProducts\Processor.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />

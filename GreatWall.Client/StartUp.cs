@@ -1,5 +1,4 @@
-﻿
-namespace GreatWall.Client
+﻿namespace GreatWall.Client
 {
     using GreatWall.Client.Core;
 
