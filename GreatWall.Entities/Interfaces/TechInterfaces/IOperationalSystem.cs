@@ -2,8 +2,8 @@
 {
     public interface IOperationalSystem 
     {
-        string Type { get; }
+        string OSType { get; }
 
-        string Manufacturer { get; }
+        string OSManufacturer { get; }
     }
 }

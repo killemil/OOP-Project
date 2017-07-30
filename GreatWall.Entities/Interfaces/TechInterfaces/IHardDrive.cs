@@ -2,14 +2,14 @@
 {
     public interface IHardDrive : IProduct
     {
-        string Type { get; }
+        string HardDriveType { get; }
 
-        string Capacity { get; }
+        string HardDriveCapacity { get; }
 
-        string Interface { get; }
+        string HardDriveInterface { get; }
 
-        double WriteSpeed { get; }
+        double HardDriveWriteSpeed { get; }
 
-        double ReadSpeed { get; }
+        double HardDriveReadSpeed { get; }
     }
 }

@@ -6,8 +6,8 @@
 
         string VideoCardModel { get; }
         
-        string MemoryType { get; }
+        string VideoCardMemoryType { get; }
 
-        string MemoryCapacity { get; }
+        string VideoCardMemoryCapacity { get; }
     }
 }
