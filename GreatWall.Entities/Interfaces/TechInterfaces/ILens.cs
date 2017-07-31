@@ -2,7 +2,7 @@
 {
     public interface ILens
     {
-        string Design { get; }
+        string LensDesign { get; }
 
         string LensManufacturer { get; }
     }
