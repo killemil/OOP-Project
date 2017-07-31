@@ -1,6 +1,7 @@
 ﻿namespace GreatWall.Entities.Interfaces
 {
     using GreatWall.Entities.Enumerations;
+    using System.Text;
 
     public abstract class Product : IProduct
     {
@@ -23,8 +24,8 @@
             this.Model = model;
             this.Weight = weight;
             this.Size = size;
-            this.Category = Category;
-            this.SubCategory = SubCategory;
+            this.Category = category;
+            this.SubCategory = subCategory;
         }
 
         public string Model
@@ -127,6 +128,22 @@
             {
                 this.subCategory = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Category: {this.Category.ToString()}");
+            sb.AppendLine($"SubCategory: {this.SubCategory.ToString()}");
+            sb.AppendLine($"Model: {this.Model}");
+            sb.AppendLine($"Manufacturer: {this.Manufacturer}");
+            sb.AppendLine($"Quantity: {this.Quantity}");
+            sb.AppendLine($"Price: {this.Price}");
+            sb.AppendLine($"Color: {this.Color}");
+            sb.AppendLine($"Weight: {this.Weight}");
+            sb.AppendLine($"Size: {this.Size}");
+
+            return sb.ToString().Trim();
         }
     }
 }

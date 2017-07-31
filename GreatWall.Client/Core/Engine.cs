@@ -6,9 +6,15 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     public class Engine
     {
+        private const char CrossSign = '\u256C';
+        private const char VerticalLine = '\u2551';
+        private const char HorizontalLine = '\u2550';
+
+        private string browseOrAdd;
         private string[] menuItems;
         private IList<IProduct> products;
         private string[] initialProductData;
@@ -18,7 +24,7 @@
             this.menuItems = new string[]
             {
                 "Add Product",
-                "Buy Product",
+                "Browse Products",
                 "About",
                 "Exit"
             };
@@ -45,14 +51,19 @@
         {
             int pageSize = list.Count;
             int pointer = 1;
+
             while (true)
             {
-
                 Console.CursorVisible = false;
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Yellow;
 
                 Console.Clear();
+                Console.CursorTop = 8;
+                Console.CursorLeft = 10;
+                if (menu == "mainMenu") Console.WriteLine("MAIN MENU");
+                else if (menu == "subCategory") Console.WriteLine("CATEGORIES:");
+                else if (menu == "addProduct" || menu == "browse") Console.WriteLine("SUBCATEGORIES:");
 
                 int current = 1;
                 Console.CursorTop = 10;
@@ -70,7 +81,7 @@
                     Console.WriteLine(item);
                 }
 
-                var key = Console.ReadKey(true);
+                ConsoleKeyInfo key = Console.ReadKey(true);
 
                 switch (key.Key)
                 {
@@ -108,16 +119,21 @@
         {
             if (menu == "mainMenu")
             {
-                if (currentSelection == 1)
+                if (currentSelection == 1 || currentSelection == 2)
                 {
+                    this.browseOrAdd = currentSelection == 1 ? "addProduct" : "browse";
                     string[] categories = Enum.GetNames(typeof(Category));
 
                     ShowMenu(categories, "subCategory", currentSelection);
                 }
+                else if (currentSelection == 4)
+                {
+                    Environment.Exit(0);
+                }
             }
             else if (menu == "subCategory")
             {
-                SelectSubCategories(currentSelection);
+                SelectSubCategories(currentSelection, this.browseOrAdd);
             }
             else if (menu == "addProduct")
             {
@@ -129,9 +145,115 @@
 
                 AddProduct(category, subCategory);
             }
+            else if (menu == "browse")
+            {
+                Console.CursorVisible = false;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Category category = (Category)categoryNumber[0];
+                SubCategory subCategory = (SubCategory)currentSelection;
+
+                BrowseProducts(category, subCategory);
+            }
         }
 
-        private void SelectSubCategories(int currentSelection)
+        private void BrowseProducts(Category category, SubCategory subCategory)
+        {
+            int pageSize = 2;
+            int currentPage = 0;
+            int maxPages = (int)Math.Ceiling(this.products.Count / (double)pageSize);
+            int pointer = 1;
+
+            Console.WriteLine($"Products in Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
+            StringBuilder sb = new StringBuilder();
+            string horizontalLine = new string(HorizontalLine, 10);
+            sb.Append(horizontalLine)
+                .Append(CrossSign)
+                .Append(horizontalLine + HorizontalLine + HorizontalLine)
+                .Append(CrossSign)
+                .Append(horizontalLine)
+                .Append(CrossSign)
+                .Append(horizontalLine)
+                .Append(CrossSign);
+
+            while (true)
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Clear();
+                Console.WriteLine($" Model    {VerticalLine}Manufacturer{VerticalLine} Price    {VerticalLine} Quantity {VerticalLine} (Page {currentPage + 1} of {maxPages})");
+                Console.WriteLine(sb);
+
+                int current = 1;
+
+                foreach (var product in this.products
+                                            .Where(p => p.SubCategory == subCategory)
+                                            .Skip(pageSize * currentPage)
+                                            .Take(pageSize))
+                {
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    if (current == pointer)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+                    Console.WriteLine($"{product.Model,10}{VerticalLine}{product.Manufacturer,12}{VerticalLine}{product.Price,10}{VerticalLine}{product.Quantity,10}{VerticalLine}");
+                    current++;
+                }
+
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.Enter:
+                        IProduct currentProduct = this.products
+                            .Skip(pageSize * currentPage + pointer - 1)
+                            .First();
+                        ShowDetails(currentProduct);
+                        Console.WriteLine("Enter pressed");
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (pointer > 1)
+                        {
+                            pointer--;
+                        }
+                        else if (currentPage > 0)
+                        {
+                            currentPage--;
+                            pointer = pageSize;
+                        }
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (pointer < pageSize)
+                        {
+                            pointer++;
+                        }
+                        else if (currentPage + 1 < maxPages)
+                        {
+                            currentPage++;
+                            pointer = 1;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        Run();
+                        break;
+                }
+            }
+        }
+
+        private void ShowDetails(IProduct currentProduct)
+        {
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Clear();
+            Console.WriteLine(currentProduct);
+
+            Console.ReadKey();
+        }
+
+        private void SelectSubCategories(int currentSelection, string actionType)
         {
             if (currentSelection == 1)
             {
@@ -141,7 +263,7 @@
                     .Select(sc => sc.ToString())
                     .ToList();
 
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                ShowMenu(subCategories, actionType, currentSelection);
             }
             else if (currentSelection == 2)
             {
@@ -151,7 +273,7 @@
                     .Select(sc => sc.ToString())
                     .ToList();
 
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                ShowMenu(subCategories, actionType, currentSelection);
             }
             else if (currentSelection == 3)
             {
@@ -161,7 +283,7 @@
                     .Select(sc => sc.ToString())
                     .ToList();
 
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                ShowMenu(subCategories, actionType, currentSelection);
             }
             else if (currentSelection == 4)
             {
@@ -171,7 +293,7 @@
                     .Select(sc => sc.ToString())
                     .ToList();
 
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                ShowMenu(subCategories, actionType, currentSelection);
             }
             else if (currentSelection == 5)
             {
@@ -181,7 +303,7 @@
                     .Select(sc => sc.ToString())
                     .ToList();
 
-                ShowMenu(subCategories, "addProduct", currentSelection);
+                ShowMenu(subCategories, actionType, currentSelection);
             }
         }
 

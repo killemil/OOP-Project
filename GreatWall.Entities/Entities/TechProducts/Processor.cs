@@ -4,6 +4,7 @@
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
     using GreatWall.Entities.Interfaces;
+    using System.Text;
 
     public class Processor : Product, IProcessor
     {
@@ -29,5 +30,17 @@
             get { return this.cores; }
             private set { this.cores = value; }
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Capacity(Ghz): {this.Capacity}");
+            sb.AppendLine($"Number of cores: {this.Cores}");
+
+            return sb.ToString();
+        }
     }
+
+    
 }
