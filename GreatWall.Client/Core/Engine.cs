@@ -1,6 +1,7 @@
 ﻿namespace GreatWall.Client.Core
 {
     using GreatWall.Client.Factory;
+    using GreatWall.Client.SeedData;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     using System;
@@ -13,6 +14,7 @@
         private const char CrossSign = '\u256C';
         private const char VerticalLine = '\u2551';
         private const char HorizontalLine = '\u2550';
+        private const char TSymbol = '\u2569';
 
         private string browseOrAdd;
         private string[] menuItems;
@@ -38,7 +40,7 @@
                  "Weight: ",
                  "Size: "
             };
-            this.products = new List<IProduct>();
+            this.products = new List<IProduct>(Seed.SeedData());
         }
 
         public void Run()
@@ -159,7 +161,7 @@
 
         private void BrowseProducts(Category category, SubCategory subCategory)
         {
-            int pageSize = 2;
+            int pageSize = 7;
             int currentPage = 0;
             int maxPages = (int)Math.Ceiling(this.products.Count / (double)pageSize);
             int pointer = 1;
@@ -183,7 +185,7 @@
                 Console.Clear();
                 Console.WriteLine($" Model    {VerticalLine}Manufacturer{VerticalLine} Price    {VerticalLine} Quantity {VerticalLine} (Page {currentPage + 1} of {maxPages})");
                 Console.WriteLine(sb);
-
+                bool hasProductsInCategory = false;
                 int current = 1;
 
                 foreach (var product in this.products
@@ -199,7 +201,16 @@
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
                     Console.WriteLine($"{product.Model,10}{VerticalLine}{product.Manufacturer,12}{VerticalLine}{product.Price,10}{VerticalLine}{product.Quantity,10}{VerticalLine}");
+                    hasProductsInCategory = true;
                     current++;
+                }
+
+                if (!hasProductsInCategory)
+                {
+                    Console.WriteLine("No products in this category");
+                    Console.WriteLine("Press any key to get back to main menu");
+                    Console.ReadKey();
+                    Run();
                 }
 
                 ConsoleKeyInfo key = Console.ReadKey();
@@ -208,10 +219,10 @@
                 {
                     case ConsoleKey.Enter:
                         IProduct currentProduct = this.products
+                            .Where(p=> p.Category == category && p.SubCategory == subCategory)
                             .Skip(pageSize * currentPage + pointer - 1)
-                            .First();
-                        ShowDetails(currentProduct);
-                        Console.WriteLine("Enter pressed");
+                            .FirstOrDefault();
+                            ShowDetails(currentProduct);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -311,17 +322,29 @@
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Add product to Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
+            StringBuilder sb = new StringBuilder();
+            sb.Append(new string(HorizontalLine, 23))
+                .Append(TSymbol)
+                .Append(new string(HorizontalLine, category.ToString().Length ))
+                .Append(TSymbol)
+                .Append(new string(HorizontalLine, 11))
+                .Append(TSymbol)
+                .Append(new string(HorizontalLine, subCategory.ToString().Length + 2));
+
+            Console.WriteLine($"Add product to Category{VerticalLine}{category.ToString()}{VerticalLine}SubCategory{VerticalLine} {subCategory.ToString()}");
+            Console.WriteLine(sb);
             IList<string> initialData = new List<string>();
 
             for (int i = 0; i < this.initialProductData.Length; i++)
             {
                 Console.Write(this.initialProductData[i]);
-                initialData.Add(Console.ReadLine());
+                string productInfo = Console.ReadLine();
+                initialData.Add(productInfo);
+                Console.WriteLine(new string(HorizontalLine,this.initialProductData[i].Length + productInfo.Length));
             }
 
             this.products.Add(ProductFactory.GetProduct(category, subCategory, initialData));
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
             Console.WriteLine("Succesfully added a product");
             Console.WriteLine("Press any key to continue");

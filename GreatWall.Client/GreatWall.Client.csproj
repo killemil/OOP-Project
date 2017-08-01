@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Factory\ProductFactory.cs" />
+    <Compile Include="SeedData\Seed.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
