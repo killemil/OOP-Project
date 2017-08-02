@@ -19,7 +19,6 @@
         private string browseOrAdd;
         private string[] menuItems;
         private IList<IProduct> products;
-        private string[] initialProductData;
 
         public Engine()
         {
@@ -29,16 +28,6 @@
                 "Browse Products",
                 "About",
                 "Exit"
-            };
-            this.initialProductData = new string[]
-            {
-                 "Model: ",
-                 "Manufacturer: ",
-                 "Quantity: ",
-                 "Price: ",
-                 "Color: ",
-                 "Weight: ",
-                 "Size: "
             };
             this.products = new List<IProduct>(Seed.SeedData());
         }
@@ -142,8 +131,8 @@
                 Console.CursorVisible = false;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-                Category category = (Category)categoryNumber[0];
-                SubCategory subCategory = (SubCategory)currentSelection;
+                Category category = (Category)(categoryNumber[0] * 100);
+                SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
                 AddProduct(category, subCategory);
             }
@@ -152,8 +141,8 @@
                 Console.CursorVisible = false;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-                Category category = (Category)categoryNumber[0];
-                SubCategory subCategory = (SubCategory)currentSelection;
+                Category category = (Category)(categoryNumber[0] * 100);
+                SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
                 BrowseProducts(category, subCategory);
             }
@@ -219,10 +208,10 @@
                 {
                     case ConsoleKey.Enter:
                         IProduct currentProduct = this.products
-                            .Where(p=> p.Category == category && p.SubCategory == subCategory)
+                            .Where(p => p.Category == category && p.SubCategory == subCategory)
                             .Skip(pageSize * currentPage + pointer - 1)
                             .FirstOrDefault();
-                            ShowDetails(currentProduct);
+                        ShowDetails(currentProduct);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -270,7 +259,7 @@
             {
                 var subCategories = Enum.GetValues(typeof(SubCategory))
                     .OfType<SubCategory>()
-                    .Where(c => (int)c < 50)
+                    .Where(c => (int)c < 200)
                     .Select(sc => sc.ToString())
                     .ToList();
 
@@ -280,7 +269,7 @@
             {
                 var subCategories = Enum.GetValues(typeof(SubCategory))
                     .OfType<SubCategory>()
-                    .Where(c => (int)c < 150 && (int)c >= 100)
+                    .Where(c => (int)c >= 201 && (int)c < 300)
                     .Select(sc => sc.ToString())
                     .ToList();
 
@@ -290,7 +279,7 @@
             {
                 var subCategories = Enum.GetValues(typeof(SubCategory))
                     .OfType<SubCategory>()
-                    .Where(c => (int)c < 100 && (int)c >= 50)
+                    .Where(c => (int)c >= 301 && (int)c < 400)
                     .Select(sc => sc.ToString())
                     .ToList();
 
@@ -300,7 +289,7 @@
             {
                 var subCategories = Enum.GetValues(typeof(SubCategory))
                     .OfType<SubCategory>()
-                    .Where(c => (int)c < 200 && (int)c >= 150)
+                    .Where(c => (int)c >= 401 && (int)c < 500)
                     .Select(sc => sc.ToString())
                     .ToList();
 
@@ -310,7 +299,7 @@
             {
                 var subCategories = Enum.GetValues(typeof(SubCategory))
                     .OfType<SubCategory>()
-                    .Where(c => (int)c < 250 && (int)c >= 200)
+                    .Where(c => (int)c >= 501 && (int)c < 600)
                     .Select(sc => sc.ToString())
                     .ToList();
 
@@ -325,7 +314,7 @@
             StringBuilder sb = new StringBuilder();
             sb.Append(new string(HorizontalLine, 23))
                 .Append(TSymbol)
-                .Append(new string(HorizontalLine, category.ToString().Length ))
+                .Append(new string(HorizontalLine, category.ToString().Length))
                 .Append(TSymbol)
                 .Append(new string(HorizontalLine, 11))
                 .Append(TSymbol)
@@ -333,17 +322,21 @@
 
             Console.WriteLine($"Add product to Category{VerticalLine}{category.ToString()}{VerticalLine}SubCategory{VerticalLine} {subCategory.ToString()}");
             Console.WriteLine(sb);
-            IList<string> initialData = new List<string>();
 
-            for (int i = 0; i < this.initialProductData.Length; i++)
+            string className = subCategory.ToString().Substring(0, subCategory.ToString().Length - 1);
+            Type element = Type.GetType("GreatWall.Entities.Entities.TechProducts." + category.ToString() + "." + className + ", GreatWall.Entities");
+            var properties = element.GetProperties();
+
+            IList<string> productData = new List<string>();
+            for (int i = 0; i < properties.Length - 2; i++)
             {
-                Console.Write(this.initialProductData[i]);
+                Console.Write(properties[i].Name + ": ");
                 string productInfo = Console.ReadLine();
-                initialData.Add(productInfo);
-                Console.WriteLine(new string(HorizontalLine,this.initialProductData[i].Length + productInfo.Length));
+                productData.Add(productInfo);
+                Console.WriteLine(new string(HorizontalLine, properties[i].Name.Length + productInfo.Length + 2));
             }
 
-            this.products.Add(ProductFactory.GetProduct(category, subCategory, initialData));
+            this.products.Add(ProductFactory.GetProduct(category, subCategory, productData));
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
             Console.WriteLine("Succesfully added a product");

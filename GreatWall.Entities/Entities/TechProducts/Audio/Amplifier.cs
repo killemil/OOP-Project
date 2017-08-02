@@ -1,8 +1,6 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts
+﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Amplifier : Product, IAudio

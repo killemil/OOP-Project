@@ -1,7 +1,6 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts
+﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class MediaPlayer : Product, IMediaPlayer

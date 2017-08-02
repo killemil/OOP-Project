@@ -2,10 +2,10 @@
 {
     public enum Category
     {
-        Computers = 1,
-        TVs = 2,
-        Phones = 3,
-        Audio = 4,
-        Cameras = 5
+        Computers = 100,
+        TVs = 200,
+        Phones = 300,
+        Audio = 400,
+        Cameras = 500
     }
 }

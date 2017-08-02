@@ -1,8 +1,7 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts.Other
+﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
     using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Battery : Product, IBattery

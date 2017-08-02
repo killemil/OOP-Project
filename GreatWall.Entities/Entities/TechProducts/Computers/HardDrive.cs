@@ -1,4 +1,4 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts.Other
+﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
     using System;
     using GreatWall.Entities.Enumerations;

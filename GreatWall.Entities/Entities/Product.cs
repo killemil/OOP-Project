@@ -1,6 +1,7 @@
-﻿namespace GreatWall.Entities.Interfaces
+﻿namespace GreatWall.Entities.Entities
 {
     using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Interfaces;
     using System.Text;
 
     public abstract class Product : IProduct

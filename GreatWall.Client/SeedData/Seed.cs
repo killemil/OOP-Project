@@ -1,6 +1,6 @@
 ﻿namespace GreatWall.Client.SeedData
 {
-    using GreatWall.Entities.Entities.TechProducts;
+    using GreatWall.Entities.Entities.TechProducts.Computers;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     using System.Collections.Generic;

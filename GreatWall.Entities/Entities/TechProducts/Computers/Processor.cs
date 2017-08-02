@@ -1,9 +1,8 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts
+﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
     using System;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using GreatWall.Entities.Interfaces;
     using System.Text;
 
     public class Processor : Product, IProcessor

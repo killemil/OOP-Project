@@ -2,26 +2,34 @@
 {
     public enum SubCategory
     {
-        // 0-49 IT products
-        PersonalComputers = 1,
-        Laptops = 2,
-        Processors = 3,
-        Batterys = 4,
-        Displays = 5,
-        GraphicCards = 6,
-        HardDrives = 7,
-        Memories = 8,
-        PowerSuplies = 9,
-        //50 - 99 Phones and Tablets
-        Phones = 50,
-        SmartPhone = 51,
-        //100 - 149 Tvs
-        SmartTv = 100,
-        Tv = 101,
-        //150 - 199 Audio
+        // 101-199 IT products
+        PersonalComputers = 101,
+        Laptops = 102,
+        Processors = 103,
+        Batterys = 104,
+        Displays = 105,
+        GraphicCards = 106,
+        HardDrives = 107,
+        Memories = 108,
+        PowerSuplies = 109,
 
-        //200-249 Video
-        PhotographicCamera = 200,
-        VideoCamera = 201,
+        //201 - 299 Tvs
+        SmartTv = 201,
+        Tv = 202,
+
+        //301 - 399 Phones and Tablets
+        Phones = 301,
+        SmartPhone = 302,
+
+        //401- 499 Audio
+        Amplifiers = 401,
+        MediaPlayer = 402,
+        Speakers = 403,
+        MediaPlayers = 404,
+        Headphones = 405,
+
+        //501-599 Video
+        PhotographicCamera = 501,
+        VideoCamera = 502
     }
 }

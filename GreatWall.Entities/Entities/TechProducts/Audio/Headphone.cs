@@ -1,17 +1,16 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts
+﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class Headphones : Product, IAudio
+    public class Headphone : Product, IAudio
     {
         private int power;
         private double signalFrequency;
         private double sensitivity;
         private bool usb;
 
-        public Headphones(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, bool usb, Category category, SubCategory subCategory)
+        public Headphone(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, bool usb, Category category, SubCategory subCategory)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Power = power;
