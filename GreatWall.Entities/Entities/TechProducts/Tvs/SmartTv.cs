@@ -1,73 +1,99 @@
-﻿namespace GreatWall.Entities.Entities.TechProducts.SmartTv
+﻿namespace GreatWall.Entities.Entities.TechProducts.TVs
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class SmartTv : Product, I3DGlasses, IDisplay, IExternalFlashDrive
-    {       
+    public class SmartTV : Product, ISmartTv
+    {
+        private bool has3DFunction;
+        private string operationalSystem;
         private string displayType;
-        private bool touchScreen;
-        private string displayResolution;
-        private string displaySizeInInches;
-        private string displayColors;
-        private bool externalFlashDrive;
-        private bool glasses3D;
+        private string sizeInInches;
+        private string resolution;
+        private int powerConsumption;
 
-        public SmartTv(string displayType, bool touchScreen, string displayResolution, string displaySizeInInches, string displayColors, 
-            bool externalFlashDrive, bool glasses3D, string manufacturer, int quantity, decimal price, string color,
-            string model, double weight, string size, Category category, SubCategory subCategory)
+        public SmartTV(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
+            bool has3DFunction, string operationalSystem, string displayType, string sizeInInches, string resolution, int powerConsumption)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
-        {           
+        {
+            this.Has3DFuncton = has3DFunction;
+            this.OperationalSystem = operationalSystem;
             this.DisplayType = displayType;
-            this.TouchScreen = touchScreen;
-            this.DisplayResolution = displayResolution;
-            this.DisplaySizeInInches = displaySizeInInches;
-            this.DisplayColors = displayColors;
-            this.ExternalFlashDrive = externalFlashDrive;
-            this.Glasses3D = glasses3D;
+            this.SizeInIncehs = sizeInInches;
+            this.Resolution = resolution;
+            this.PowerConsumption = powerConsumption;
         }
 
-        public bool Glasses3D
+        public bool Has3DFuncton
         {
-            get{ return this.glasses3D; }
-            set { this.glasses3D = value; }
+            get
+            {
+                return this.has3DFunction;
+            }
+            private set
+            {
+                this.has3DFunction = value;
+            }
+        }
+
+        public string OperationalSystem
+        {
+            get
+            {
+                return this.operationalSystem;
+            }
+            private set
+            {
+                this.operationalSystem = value;
+            }
         }
 
         public string DisplayType
         {
-            get { return this.displayType; }
-            set { this.displayType = value; }
-        }
-        public bool TouchScreen
-        {
-            get { return this.touchScreen; }
-            set { this.touchScreen = value; }
-        }
-
-        public string DisplayResolution
-        {
-            get { return this.displayResolution; }
-            set { this.displayResolution = value; }
+            get
+            {
+                return this.displayType;
+            }
+            private set
+            {
+                this.displayType = value;
+            }
         }
 
-        public string DisplaySizeInInches
+        public string SizeInIncehs
         {
-            get { return this.displaySizeInInches; }
-            set { this.displaySizeInInches = value; }
+            get
+            {
+                return this.sizeInInches;
+            }
+            private set
+            {
+                this.sizeInInches = value;
+            }
         }
 
-        public string DisplayColors
+        public string Resolution
         {
-            get { return this.displayColors; }
-            set { this.displayColors = value; }
+            get
+            {
+                return this.resolution;
+            }
+            private set
+            {
+                this.resolution = value;
+            }
         }
 
-        public bool ExternalFlashDrive
+        public int PowerConsumption
         {
-            get { return this.externalFlashDrive; }
-            set { this.externalFlashDrive = value; }
+            get
+            {
+                return this.powerConsumption;
+            }
+            private set
+            {
+                this.powerConsumption = value;
+            }
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿namespace GreatWall.Entities.Interfaces.TechInterfaces
 {
-    public interface IMemory : IProduct
+    public interface ISpeaker : IAudio
     {
         string Type { get; }
 
-        string Speed { get; }
+        int Sensitivity { get; }
 
-        string Capacity { get; }
     }
 }

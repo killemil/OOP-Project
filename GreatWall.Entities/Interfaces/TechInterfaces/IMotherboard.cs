@@ -1,11 +1,11 @@
 ﻿namespace GreatWall.Entities.Interfaces.TechInterfaces
 {
-    public interface IMotherboard : IProduct
+    public interface IMotherboard 
     {
         string CPUSocket { get; }
 
-        string MotherboardChipset { get; }
+        string VideoSlot { get; }
 
-        string MaxRamCapacity { get; }
+        int MaxRamCapacity { get; }
     }
 }

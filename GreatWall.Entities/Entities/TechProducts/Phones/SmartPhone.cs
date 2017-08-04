@@ -1,54 +1,107 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Phones
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class SmartPhone : Product, IPhone, IPowerSupply, IBattery, IDisplay, IMemory, IProcessor
+    public class SmartPhone : Product, ISmartPhone
     {
-        private string simCardType;
-        private string phoneMemorySlot;
-        private string networkCompatibility;
-        private string power;
-        private string batteryType;
-        private string batteryCapacity;
+        private string processor;
+        private string ramMemory;
+        private string internalMemory;
         private string displayType;
-        private bool touchScreen;
-        private string displayResolution;
-        private string displaySizeInInches;
-        private string displayColors;
-        private string memoryType;
-        private string memorySpeed;
-        private string memoryCapacity;
-        private string capacity;
-        private int cores;
+        private string displaySize;
+        private string operationalSystem;
+        private string simCardType;
+        private string memorySlot;
+        private string networkCompatibility;
+        private int batteryCapacity;
 
-        public SmartPhone(string simCardType, string phoneMemorySlot, string networkCompatibility,
-            string power, string batteryType, string batteryCapacity,
-            string displayType, bool touchScreen, string displayResolution,
-            string displaySizeInInches, string displayColors, string memoryType,
-            string memorySpeed, string memoryCapacity, string capacity, int cores, string manufacturer,
-            int quantity, decimal price, string color, string model, double weight,
-            string size, Category category, SubCategory subCategory)
+        public SmartPhone(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
+            string simCardType, string memorySlot, string networkCompatibility, int batteryCapacity, string procesor, string ramMemory, string internalMemory, string displayType, string displaySize, string operationalSystem)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
-            this.SimCardType = simCardType;
-            this.PhoneMemorySlot = phoneMemorySlot;
-            this.NetworkCompatibility = networkCompatibility;
-            this.Power = power;
-            this.BatteryType = batteryType;
-            this.BatteryCapacity = batteryCapacity;
+            this.Processor = procesor;
+            this.RamMemory = ramMemory;
+            this.InternalMemory = internalMemory;
             this.DisplayType = displayType;
-            this.TouchScreen = touchScreen;
-            this.DisplayResolution = displayResolution;
-            this.DisplaySizeInInches = displaySizeInInches;
-            this.DisplayColors = displayColors;
-            this.MemoryType = memoryType;
-            this.MemorySpeed = memorySpeed;
-            this.MemoryCapacity = memoryCapacity;
-            this.Capacity = capacity;
-            this.Cores = cores;
+            this.DisplaySize = displaySize;
+            this.OperationalSystem = operationalSystem;
+            this.SimCardType = simCardType;
+            this.MemorySlot = memorySlot;
+            this.NetworkCompatibility = networkCompatibility;
+            this.BatteryCapacity = batteryCapacity;
+        }
+
+        public string Processor
+        {
+            get
+            {
+                return this.processor;
+            }
+            private set
+            {
+                this.processor = value;
+            }
+        }
+
+        public string RamMemory
+        {
+            get
+            {
+                return this.ramMemory;
+            }
+            private set
+            {
+                this.ramMemory = value;
+            }
+        }
+
+        public string InternalMemory
+        {
+            get
+            {
+                return this.internalMemory;
+            }
+            private set
+            {
+                this.internalMemory = value;
+            }
+        }
+
+        public string DisplayType
+        {
+            get
+            {
+                return this.displayType;
+            }
+            private set
+            {
+                this.displayType = value;
+            }
+        }
+
+        public string DisplaySize
+        {
+            get
+            {
+                return this.displaySize;
+            }
+            private set
+            {
+                this.displaySize = value;
+            }
+        }
+
+        public string OperationalSystem
+        {
+            get
+            {
+                return this.operationalSystem;
+            }
+            private set
+            {
+                this.operationalSystem = value;
+            }
         }
 
         public string SimCardType
@@ -57,10 +110,10 @@
             set { this.simCardType = value; }
         }
 
-        public string PhoneMemorySlot
+        public string MemorySlot
         {
-            get { return this.phoneMemorySlot; }
-            set { this.phoneMemorySlot = value; }
+            get { return this.memorySlot; }
+            set { this.memorySlot = value; }
         }
 
         public string NetworkCompatibility
@@ -69,81 +122,16 @@
             set { this.networkCompatibility = value; }
         }
 
-        public string Power
+        public int BatteryCapacity
         {
-            get { return this.power; }
-            set { this.power = value; }
-        }
-
-        public string BatteryType
-        {
-            get { return this.batteryType; }
-            set { this.batteryType = value; }
-        }
-
-        public string BatteryCapacity
-        {
-            get { return this.batteryCapacity; }
-            set { this.batteryCapacity = value; }
-        }
-
-        public string DisplayType
-        {
-            get { return this.displayType; }
-            set { this.displayType = value; }
-        }
-        public bool TouchScreen
-        {
-            get { return this.touchScreen; }
-            set { this.touchScreen = value; }
-        }
-
-        public string DisplayResolution
-        {
-            get { return this.displayResolution; }
-            set { this.displayResolution = value; }
-        }
-
-        public string DisplaySizeInInches
-        {
-            get { return this.displaySizeInInches; }
-            set { this.displaySizeInInches = value; }
-        }
-
-        public string DisplayColors
-        {
-            get { return this.displayColors; }
-            set { this.displayColors = value; }
-        }
-
-        public string MemoryType
-        {
-            get { return this.memoryType; }
-            set { this.memoryType = value; }
-        }
-
-        public string MemorySpeed
-        {
-            get { return this.memorySpeed; }
-            set { this.memorySpeed = value; }
-        }
-
-        public string MemoryCapacity
-        {
-            get { return this.memoryCapacity; }
-            set { this.memoryCapacity = value; }
-        }
-
-        public string Capacity
-        {
-            get { return this.capacity; }
-            set { this.capacity = value; }
-        }
-
-        public int Cores
-        {
-            get { return this.cores; }
-            set { this.cores = value; }
+            get
+            {
+                return this.batteryCapacity;
+            }
+            private set
+            {
+                this.batteryCapacity = value;
+            }
         }
     }
 }

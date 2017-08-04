@@ -2,6 +2,6 @@
 {
     public interface IPowerSupply
     {
-        string Power { get; }
+        int Power { get; }
     }
 }

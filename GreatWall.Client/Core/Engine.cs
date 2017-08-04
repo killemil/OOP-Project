@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     public class Engine
@@ -15,6 +16,9 @@
         private const char VerticalLine = '\u2551';
         private const char HorizontalLine = '\u2550';
         private const char TSymbol = '\u2569';
+        private const char EndChar = '\u255D';
+        private const string ClassesNamespace = "GreatWall.Entities.Entities.TechProducts.";
+        private const string AssemblyName = ", GreatWall.Entities";
 
         private string browseOrAdd;
         private string[] menuItems;
@@ -152,7 +156,7 @@
         {
             int pageSize = 7;
             int currentPage = 0;
-            int maxPages = (int)Math.Ceiling(this.products.Count / (double)pageSize);
+            int maxPages = (int)Math.Ceiling(this.products.Where(p=> p.SubCategory == subCategory).Count() / (double)pageSize);
             int pointer = 1;
 
             Console.WriteLine($"Products in Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
@@ -182,6 +186,7 @@
                                             .Skip(pageSize * currentPage)
                                             .Take(pageSize))
                 {
+
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     if (current == pointer)
@@ -189,7 +194,7 @@
                         Console.BackgroundColor = ConsoleColor.Yellow;
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
-                    Console.WriteLine($"{product.Model,10}{VerticalLine}{product.Manufacturer,12}{VerticalLine}{product.Price,10}{VerticalLine}{product.Quantity,10}{VerticalLine}");
+                    Console.WriteLine($"{(product.Model.Length > 10 ? product.Model.Substring(0, 10) : product.Model),10 }{VerticalLine}{product.Manufacturer,12}{VerticalLine}{product.Price,10}{VerticalLine}{product.Quantity,10}{VerticalLine}");
                     hasProductsInCategory = true;
                     current++;
                 }
@@ -309,6 +314,52 @@
 
         private void AddProduct(Category category, SubCategory subCategory)
         {
+            string categoryStr = category.ToString();
+            string subCategoryStr = subCategory.ToString();
+
+            PrintHeadLine(categoryStr, subCategoryStr);
+            IList<string> productData = GetProductData(categoryStr, subCategoryStr);
+            this.products.Add(ProductFactory.GetProduct(category, subCategory, productData));
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine();
+            Console.WriteLine("Succesfully added a product");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+
+            this.Run();
+        }
+
+        private IList<string> GetProductData(string categoryStr, string subCategoryStr)
+        {
+            string className = subCategoryStr.Substring(0, subCategoryStr.Length - 1);
+            Type element = Type.GetType(ClassesNamespace + categoryStr + "." + className + AssemblyName);
+            PropertyInfo[] baseProperties = element.BaseType.GetProperties();
+            PropertyInfo[] currentClassProperties = element.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+
+            IList<string> productData = new List<string>();
+            for (int i = 0; i < baseProperties.Length - 2; i++)
+            {
+                string propertyType = baseProperties[i].PropertyType.Name;
+                Console.Write(baseProperties[i].Name + $"({propertyType})" + ": ");
+                string productInfo = Console.ReadLine();
+                productData.Add(productInfo);
+                Console.WriteLine(new string(HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + EndChar);
+            }
+            for (int i = 0; i < currentClassProperties.Length; i++)
+            {
+                string propertyType = currentClassProperties[i].PropertyType.Name;
+                Console.Write(currentClassProperties[i].Name + $"({propertyType})" + ": ");
+                string productInfo = Console.ReadLine();
+                productData.Add(productInfo);
+                Console.WriteLine(new string(HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + EndChar);
+            }
+
+            return productData;
+        }
+
+        private static void PrintHeadLine(string category, string subCategory)
+        {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             StringBuilder sb = new StringBuilder();
@@ -320,30 +371,8 @@
                 .Append(TSymbol)
                 .Append(new string(HorizontalLine, subCategory.ToString().Length + 2));
 
-            Console.WriteLine($"Add product to Category{VerticalLine}{category.ToString()}{VerticalLine}SubCategory{VerticalLine} {subCategory.ToString()}");
+            Console.WriteLine($"Add product to Category{VerticalLine}{category}{VerticalLine}SubCategory{VerticalLine} {subCategory}");
             Console.WriteLine(sb);
-
-            string className = subCategory.ToString().Substring(0, subCategory.ToString().Length - 1);
-            Type element = Type.GetType("GreatWall.Entities.Entities.TechProducts." + category.ToString() + "." + className + ", GreatWall.Entities");
-            var properties = element.GetProperties();
-
-            IList<string> productData = new List<string>();
-            for (int i = 0; i < properties.Length - 2; i++)
-            {
-                Console.Write(properties[i].Name + ": ");
-                string productInfo = Console.ReadLine();
-                productData.Add(productInfo);
-                Console.WriteLine(new string(HorizontalLine, properties[i].Name.Length + productInfo.Length + 2));
-            }
-
-            this.products.Add(ProductFactory.GetProduct(category, subCategory, productData));
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine();
-            Console.WriteLine("Succesfully added a product");
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
-
-            this.Run();
         }
 
         private void ConsoleSize()

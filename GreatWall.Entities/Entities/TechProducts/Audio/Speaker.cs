@@ -1,40 +1,48 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Enumerations;
+    using System;
 
-    public class Speaker : Product, IAudio
+    public class Speaker : Product, ISpeaker
     {
         private int power;
-        private double signalFrequency;
-        private double sensitivity;
+        private string type;
+        private int sensitivity;
 
 
-        public Speaker(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, int power, double signalFrequency, double sensitivity, Category category, SubCategory subCategory)
+        public Speaker(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory,
+             int power, string type, int sensitivity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Power = power;
-            this.SignalFrequency = signalFrequency;
+            this.type = type;
             this.Sensitivity = sensitivity;
         }
 
-        public double Sensitivity
+        public int Sensitivity
         {
-            get { return sensitivity; }
-            set { sensitivity = value; }
+            get { return this.sensitivity; }
+            set { this.sensitivity = value; }
         }
-
-        public double SignalFrequency
-        {
-            get { return signalFrequency; }
-            set { signalFrequency = value; }
-        }
+        
 
         public int Power
         {
-            get { return power; }
-            set { power = value; }
+            get { return this.power; }
+            set { this.power = value; }
+        }
+
+        public string Type
+        {
+            get
+            {
+                return this.type;
+            }
+            private set
+            {
+                this.type = value;
+            }
         }
     }
 }

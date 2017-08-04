@@ -3,29 +3,41 @@
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class Laptop : Product, ILaptop
+    public class PC : Product, IPC
     {
+        private string mainboard;
         private string processor;
         private string operationalMemory;
         private string graphicCard;
         private string internalMemory;
-        private string displaySizeAndResolution;
         private string opticalDrive;
-        private string battery;
         private string operationalSystem;
+        private string powerSupply;
 
-        public Laptop(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string processor, string operationaMemory, string graphicCard, string internalMemory, string displayResolutionAndSize, string opticalDrive, string battery , string operationalSystem)
+        public PC(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
+            string mainboard, string processor, string operationalMemory, string graphicCard, string internalMemory, string opticalDrive, string operationalSystem, string powerSupply)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
+            this.Mainboard = mainboard;
             this.Processor = processor;
-            this.OperationalMemory = operationaMemory;
+            this.OperationalMemory = operationalMemory;
             this.GraphicCard = graphicCard;
             this.InternalMemory = internalMemory;
-            this.DisplaySizeAndResolution = displayResolutionAndSize;
             this.OpticalDrive = opticalDrive;
-            this.Battery = battery;
             this.OperationalSystem = operationalSystem;
+            this.PowerSupply = powerSupply;
+        }
+
+        public string Mainboard
+        {
+            get
+            {
+                return this.mainboard;
+            }
+            private set
+            {
+                this.mainboard = value;
+            }
         }
 
         public string Processor
@@ -76,18 +88,6 @@
             }
         }
 
-        public string DisplaySizeAndResolution
-        {
-            get
-            {
-                return this.displaySizeAndResolution;
-            }
-            private set
-            {
-                this.displaySizeAndResolution = value;
-            }
-        }
-
         public string OpticalDrive
         {
             get
@@ -100,18 +100,6 @@
             }
         }
 
-        public string Battery
-        {
-            get
-            {
-                return this.battery;
-            }
-            private set
-            {
-                this.battery = value;
-            }
-        }
-
         public string OperationalSystem
         {
             get
@@ -121,6 +109,18 @@
             private set
             {
                 this.operationalSystem = value;
+            }
+        }
+
+        public string PowerSupply
+        {
+            get
+            {
+                return this.powerSupply;
+            }
+            private set
+            {
+                this.powerSupply = value;
             }
         }
     }

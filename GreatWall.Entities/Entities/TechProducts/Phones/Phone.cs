@@ -1,24 +1,23 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Phones
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class Phone : Product,IPhone,IPowerSupply
+    public class Phone : Product, IPhone
     {
         private string simCardType;
-        private string phoneMemorySlot;
+        private string memorySlot;
         private string networkCompatibility;
-        private string power;
+        private int batteryCapacity;
 
-        public Phone(string simCardType, string phoneMemorySlot, string networkCompatibility, string power, string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory) 
+        public Phone(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
+            string simCardType, string memorySlot, string networkCompatibility, int batteryCapacity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.SimCardType = simCardType;
-            this.PhoneMemorySlot = phoneMemorySlot;
+            this.MemorySlot = memorySlot;
             this.NetworkCompatibility = networkCompatibility;
-            this.Power = power;
+            this.BatteryCapacity = batteryCapacity;
         }
 
         public string SimCardType
@@ -27,10 +26,10 @@
             set { this.simCardType = value; }
         }
 
-        public string PhoneMemorySlot
+        public string MemorySlot
         {
-            get { return this.phoneMemorySlot; }
-            set { this.phoneMemorySlot = value; }
+            get { return this.memorySlot; }
+            set { this.memorySlot = value; }
         }
 
         public string NetworkCompatibility
@@ -39,10 +38,16 @@
             set { this.networkCompatibility = value; }
         }
 
-        public string Power
+        public int BatteryCapacity
         {
-            get { return this.power; }
-            set { this.power = value; }
+            get
+            {
+                return this.batteryCapacity;
+            }
+            private set
+            {
+                this.batteryCapacity = value;
+            }
         }
     }
 }

@@ -2,12 +2,10 @@
 {
     public interface IGraphicCard : IProduct
     {
-        string VideoCardSlot { get; }
-
-        string VideoCardModel { get; }
+        string SlotType { get; }
         
-        string VideoCardMemoryType { get; }
+        string MemoryType { get; }
 
-        string VideoCardMemoryCapacity { get; }
+        string MemoryCapacity { get; }
     }
 }

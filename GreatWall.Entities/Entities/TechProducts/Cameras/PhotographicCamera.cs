@@ -1,11 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Cameras
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
-    public class PhotographicCamera : Product, IBattery, IMemory, ILens
+    public class PhotographicCamera : Product, IVideoCamera
     {
         private string batteryType;
         private string batteryCapacity;
@@ -17,7 +15,7 @@
 
         public PhotographicCamera(string batteryType, string batteryCapacity, string memoryType,
             string memorySpeed, string memoryCapacity, string lensDesign, string lensManufacturer,
-            string manufacturer, int quantity, decimal price, string color, 
+            string manufacturer, int quantity, decimal price, string color,
             string model, double weight, string size, Category category, SubCategory subCategory)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {

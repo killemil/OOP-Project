@@ -4,12 +4,12 @@
     {
         string DisplayType { get; }
 
-        bool TouchScreen { get; }
+        bool HasTouchScreen { get; }
 
         string DisplayResolution { get; }
 
         string DisplaySizeInInches { get; }
 
-        string DisplayColors { get; }
+        string Colors { get; }
     }
 }

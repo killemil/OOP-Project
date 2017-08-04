@@ -1,8 +1,6 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
-    using System;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class HardDrive : Product, IHardDrive
@@ -13,10 +11,8 @@
         private double hardDriveWriteSpeed;
         private double hardDriveReadSpeed;
 
-        public HardDrive(string hardDriveType, string hardDriveCapacity,
-            string hardDriveInterface, double hardDriveWriteSpeed, double hardDriveReadSpeed, 
-            string manufacturer, int quantity, decimal price, string color, string model, double weight,
-            string size, Category category, SubCategory subCategory)
+        public HardDrive(string manufacturer, int quantity, decimal price, string color, string model, double weight,string size, Category category, SubCategory subCategory,
+            string hardDriveType, string hardDriveCapacity, string hardDriveInterface, double hardDriveWriteSpeed, double hardDriveReadSpeed)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.HardDriveType = hardDriveType;

@@ -4,8 +4,10 @@
     {
         string SimCardType { get; }
 
-        string PhoneMemorySlot { get; }
+        string MemorySlot { get; }
 
         string NetworkCompatibility { get; }
+        
+        int BatteryCapacity { get; }
     }
 }

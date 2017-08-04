@@ -1,6 +1,5 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
-    using System;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
 
@@ -9,8 +8,8 @@
         private string batteryType;
         private string batteryCapacity;
 
-        public Battery(string batteryType, string batteryCapacity, string manufacturer, int quantity, decimal price, string color, string model, double weight, 
-            string size, Category category, SubCategory subCategory) 
+        public Battery(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
+            string batteryType, string batteryCapacity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.BatteryType = batteryType;
