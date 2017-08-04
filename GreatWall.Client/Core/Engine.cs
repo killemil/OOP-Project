@@ -1,25 +1,18 @@
 ﻿namespace GreatWall.Client.Core
 {
-    using GreatWall.Client.Factory;
-    using GreatWall.Client.SeedData;
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using GreatWall.Client.Factory;
+    using GreatWall.Client.SeedData;
+    using GreatWall.Client.StaticData;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Interfaces;
 
     public class Engine
     {
-        private const char CrossSign = '\u256C';
-        private const char VerticalLine = '\u2551';
-        private const char HorizontalLine = '\u2550';
-        private const char TSymbol = '\u2569';
-        private const char EndChar = '\u255D';
-        private const string ClassesNamespace = "GreatWall.Entities.Entities.TechProducts.";
-        private const string AssemblyName = ", GreatWall.Entities";
-
         private string browseOrAdd;
         private string[] menuItems;
         private IList<IProduct> products;
@@ -161,22 +154,22 @@
 
             Console.WriteLine($"Products in Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
             StringBuilder sb = new StringBuilder();
-            string horizontalLine = new string(HorizontalLine, 10);
+            string horizontalLine = new string(Constants.HorizontalLine, 10);
             sb.Append(horizontalLine)
-                .Append(CrossSign)
-                .Append(horizontalLine + HorizontalLine + HorizontalLine)
-                .Append(CrossSign)
+                .Append(Constants.CrossSign)
+                .Append(horizontalLine + new string(Constants.HorizontalLine,2))
+                .Append(Constants.CrossSign)
                 .Append(horizontalLine)
-                .Append(CrossSign)
+                .Append(Constants.CrossSign)
                 .Append(horizontalLine)
-                .Append(CrossSign);
+                .Append(Constants.CrossSign);
 
             while (true)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Clear();
-                Console.WriteLine($" Model    {VerticalLine}Manufacturer{VerticalLine} Price    {VerticalLine} Quantity {VerticalLine} (Page {currentPage + 1} of {maxPages})");
+                Console.WriteLine($" Model    {Constants.VerticalLine}Manufacturer{Constants.VerticalLine} Price    {Constants.VerticalLine} Quantity {Constants.VerticalLine} (Page {currentPage + 1} of {maxPages})");
                 Console.WriteLine(sb);
                 bool hasProductsInCategory = false;
                 int current = 1;
@@ -194,15 +187,15 @@
                         Console.BackgroundColor = ConsoleColor.Yellow;
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
-                    Console.WriteLine($"{(product.Model.Length > 10 ? product.Model.Substring(0, 10) : product.Model),10 }{VerticalLine}{product.Manufacturer,12}{VerticalLine}{product.Price,10}{VerticalLine}{product.Quantity,10}{VerticalLine}");
+                    Console.WriteLine($"{(product.Model.Length > 10 ? product.Model.Substring(0, 10) : product.Model),10 }{Constants.VerticalLine}{product.Manufacturer,12}{Constants.VerticalLine}{product.Price,10}{Constants.VerticalLine}{product.Quantity,10}{Constants.VerticalLine}");
                     hasProductsInCategory = true;
                     current++;
                 }
 
                 if (!hasProductsInCategory)
                 {
-                    Console.WriteLine("No products in this category");
-                    Console.WriteLine("Press any key to get back to main menu");
+                    Console.WriteLine(Constants.NoProductInCategory);
+                    Console.WriteLine(Constants.PreeAnyKeyToContinue);
                     Console.ReadKey();
                     Run();
                 }
@@ -323,8 +316,8 @@
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
-            Console.WriteLine("Succesfully added a product");
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine(Constants.SuccesfullyAddedProduct);
+            Console.WriteLine(Constants.PreeAnyKeyToContinue);
             Console.ReadKey();
 
             this.Run();
@@ -333,7 +326,7 @@
         private IList<string> GetProductData(string categoryStr, string subCategoryStr)
         {
             string className = subCategoryStr.Substring(0, subCategoryStr.Length - 1);
-            Type element = Type.GetType(ClassesNamespace + categoryStr + "." + className + AssemblyName);
+            Type element = Type.GetType(Constants.ClassesNamespace + categoryStr + "." + className + Constants.AssemblyName);
             PropertyInfo[] baseProperties = element.BaseType.GetProperties();
             PropertyInfo[] currentClassProperties = element.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
@@ -344,7 +337,7 @@
                 Console.Write(baseProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Console.WriteLine(new string(HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + EndChar);
+                Console.WriteLine(new string(Constants.HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
             }
             for (int i = 0; i < currentClassProperties.Length; i++)
             {
@@ -352,7 +345,7 @@
                 Console.Write(currentClassProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Console.WriteLine(new string(HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + EndChar);
+                Console.WriteLine(new string(Constants.HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
             }
 
             return productData;
@@ -363,15 +356,15 @@
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             StringBuilder sb = new StringBuilder();
-            sb.Append(new string(HorizontalLine, 23))
-                .Append(TSymbol)
-                .Append(new string(HorizontalLine, category.ToString().Length))
-                .Append(TSymbol)
-                .Append(new string(HorizontalLine, 11))
-                .Append(TSymbol)
-                .Append(new string(HorizontalLine, subCategory.ToString().Length + 2));
+            sb.Append(new string(Constants.HorizontalLine, 23))
+                .Append(Constants.TSymbol)
+                .Append(new string(Constants.HorizontalLine, category.ToString().Length))
+                .Append(Constants.TSymbol)
+                .Append(new string(Constants.HorizontalLine, 11))
+                .Append(Constants.TSymbol)
+                .Append(new string(Constants.HorizontalLine, subCategory.ToString().Length + 2));
 
-            Console.WriteLine($"Add product to Category{VerticalLine}{category}{VerticalLine}SubCategory{VerticalLine} {subCategory}");
+            Console.WriteLine($"Add product to Category{Constants.VerticalLine}{category}{Constants.VerticalLine}SubCategory{Constants.VerticalLine} {subCategory}");
             Console.WriteLine(sb);
         }
 
