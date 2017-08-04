@@ -47,6 +47,8 @@
                 Console.ForegroundColor = ConsoleColor.Yellow;
 
                 Console.Clear();
+                Console.SetCursorPosition(0, 0);
+                Console.Write(Constants.Logo);
                 Console.CursorTop = 8;
                 Console.CursorLeft = 10;
                 if (menu == "mainMenu") Console.WriteLine("MAIN MENU");

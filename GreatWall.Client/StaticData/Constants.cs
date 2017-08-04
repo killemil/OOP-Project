@@ -12,5 +12,12 @@
         public const string SuccesfullyAddedProduct = "Succesfully added a product.";
         public const string PreeAnyKeyToContinue = "Press any key to continue...";
         public const string NoProductInCategory = "No products in this category.";
+
+        public const string Logo = @"
+ ______          ______     ___   __     ______     ______ 
+/\  ___\  ____  /\  ___\   /\  \__\ \   /\  __ \   /\  == \    
+\ \ \____ \___\ \ \___  \  \ \   __  \  \ \ \_\ \  \ \  __/
+ \ \ ____\       \/\_____\  \ \  \ \  \  \ \_____\  \ \_\  
+  \/_____/        \/_____/   \/__/ /__/   \/_____/   \/_/ ";
     }
 }
