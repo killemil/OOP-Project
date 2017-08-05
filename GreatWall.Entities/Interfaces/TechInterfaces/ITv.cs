@@ -4,7 +4,7 @@
     {
         string DisplayType { get; }
 
-        string SizeInIncehs { get; }
+        string SizeInInches { get; }
 
         string Resolution { get; }
 

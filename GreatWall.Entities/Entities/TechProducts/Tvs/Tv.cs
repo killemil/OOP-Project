@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class TV : Product, ITv
     {
@@ -15,7 +16,7 @@
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.DisplayType = displayType;
-            this.SizeInIncehs = sizeInInches;
+            this.SizeInInches = sizeInInches;
             this.Resolution = resolution;
             this.PowerConsumption = powerConsumption;
         }
@@ -32,7 +33,7 @@
             }
         }
 
-        public string SizeInIncehs
+        public string SizeInInches
         {
             get
             {
@@ -66,6 +67,18 @@
             {
                 this.powerConsumption = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Display Type: {this.DisplayType}");
+            sb.AppendLine($"Size(Inches): {this.SizeInInches}");
+            sb.AppendLine($"Resolution: {this.Resolution}");
+            sb.AppendLine($"Power Consumption(Watts): {this.PowerConsumption}");
+
+            return sb.ToString();
         }
     }
 }

@@ -10,12 +10,18 @@
     using GreatWall.Client.StaticData;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
+    using GreatWall.Entities.Interfaces.Console;
+    using GreatWall.Entities.Entities.Console;
 
     public class Engine
     {
         private string browseOrAdd;
         private string[] menuItems;
         private IList<IProduct> products;
+        private IWriter writer;
+        private IReader reader;
+        private IColor color;
+        private ICursor cursor;
 
         public Engine()
         {
@@ -27,6 +33,57 @@
                 "Exit"
             };
             this.products = new List<IProduct>(Seed.SeedData());
+            this.Writer = new ConsoleWriter();
+            this.Reader = new ConsoleReader();
+            this.Color = new ConsoleColour();
+            this.Cursor = new ConsoleCursor();
+        }
+        private IWriter Writer
+        {
+            get
+            {
+                return this.writer;
+            }
+            set
+            {
+                this.writer = value;
+            }
+        }
+
+        private IReader Reader
+        {
+            get
+            {
+                return this.reader;
+            }
+            set
+            {
+                this.reader = value;
+            }
+        }
+
+        private IColor Color
+        {
+            get
+            {
+                return this.color;
+            }
+            set
+            {
+                this.color = value;
+            }
+        }
+
+        private ICursor Cursor
+        {
+            get
+            {
+                return this.cursor;
+            }
+            set
+            {
+                this.cursor = value;
+            }
         }
 
         public void Run()
@@ -42,33 +99,33 @@
 
             while (true)
             {
-                Console.CursorVisible = false;
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Cursor.CursorVisible(false);
+                Color.BackgroundColor(ConsoleColor.Black);
+                Color.ForegroundColor(ConsoleColor.Yellow);
 
-                Console.Clear();
-                Console.SetCursorPosition(0, 0);
-                Console.Write(Constants.Logo);
-                Console.CursorTop = 8;
-                Console.CursorLeft = 10;
-                if (menu == "mainMenu") Console.WriteLine("MAIN MENU");
-                else if (menu == "subCategory") Console.WriteLine("CATEGORIES:");
-                else if (menu == "addProduct" || menu == "browse") Console.WriteLine("SUBCATEGORIES:");
+                Cursor.Clear();
+                Cursor.SetCursorPosition(0, 0);
+                Writer.Write(Constants.Logo);
+                Cursor.CursorTop(8);
+                Cursor.CursorLeft(10);
+                if (menu == "mainMenu") Writer.WriteLine("MAIN MENU");
+                else if (menu == "subCategory") Writer.WriteLine("CATEGORIES:");
+                else if (menu == "addProduct" || menu == "browse") Writer.WriteLine("SUBCATEGORIES:");
 
                 int current = 1;
-                Console.CursorTop = 10;
+                Cursor.CursorTop(10);
                 foreach (var item in list)
                 {
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Color.BackgroundColor(ConsoleColor.Black);
+                    Color.ForegroundColor(ConsoleColor.White);
                     if (current == pointer)
                     {
-                        Console.BackgroundColor = ConsoleColor.White;
-                        Console.ForegroundColor = ConsoleColor.Black;
+                        Color.BackgroundColor(ConsoleColor.White);
+                        Color.ForegroundColor(ConsoleColor.Black);
                     }
                     current++;
-                    Console.CursorLeft = 10;
-                    Console.WriteLine(item);
+                    Cursor.CursorLeft(10);
+                    Writer.WriteLine(item);
                 }
 
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -113,7 +170,7 @@
                 {
                     this.browseOrAdd = currentSelection == 1 ? "addProduct" : "browse";
                     string[] categories = Enum.GetNames(typeof(Category));
-
+                    LoginForAddingProduct();
                     ShowMenu(categories, "subCategory", currentSelection);
                 }
                 else if (currentSelection == 4)
@@ -127,9 +184,9 @@
             }
             else if (menu == "addProduct")
             {
-                Console.CursorVisible = false;
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                Cursor.CursorVisible(false);
+                Color.BackgroundColor(ConsoleColor.Black);
+                Color.ForegroundColor(ConsoleColor.White);
                 Category category = (Category)(categoryNumber[0] * 100);
                 SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
@@ -137,9 +194,9 @@
             }
             else if (menu == "browse")
             {
-                Console.CursorVisible = false;
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                Cursor.CursorVisible(false);
+                Color.BackgroundColor(ConsoleColor.Black);
+                Color.ForegroundColor(ConsoleColor.White);
                 Category category = (Category)(categoryNumber[0] * 100);
                 SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
@@ -147,19 +204,45 @@
             }
         }
 
+        private void LoginForAddingProduct()
+        {
+            if (this.browseOrAdd == "addProduct")
+            {
+                Writer.Write("Enter username: ");
+                string userName = Reader.ReadLine();
+                Writer.Write("Enter password: ");
+                string password = Reader.ReadLine();
+
+                if (userName != Constants.AdminUsername && password != Constants.AdminPassword)
+                {
+                    Color.ForegroundColor(ConsoleColor.Red);
+                    Writer.WriteLine(Constants.InvalidUsernameOrPassword);
+                    Writer.WriteLine(Constants.PreeAnyKeyToContinue);
+                    Console.ReadKey();
+                    Run();
+                }
+                else
+                {
+                    Color.ForegroundColor(ConsoleColor.Green);
+                    Writer.Write(Constants.SuccessLogin);
+                    Console.ReadKey();
+                }
+            }
+        }
+
         private void BrowseProducts(Category category, SubCategory subCategory)
         {
             int pageSize = 7;
             int currentPage = 0;
-            int maxPages = (int)Math.Ceiling(this.products.Where(p=> p.SubCategory == subCategory).Count() / (double)pageSize);
+            int maxPages = (int)Math.Ceiling(this.products.Where(p => p.SubCategory == subCategory).Count() / (double)pageSize);
             int pointer = 1;
 
-            Console.WriteLine($"Products in Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
+            Writer.WriteLine($"Products in Category: {category.ToString()}, SubCategory: {subCategory.ToString()}");
             StringBuilder sb = new StringBuilder();
             string horizontalLine = new string(Constants.HorizontalLine, 10);
             sb.Append(horizontalLine)
                 .Append(Constants.CrossSign)
-                .Append(horizontalLine + new string(Constants.HorizontalLine,2))
+                .Append(horizontalLine + new string(Constants.HorizontalLine, 2))
                 .Append(Constants.CrossSign)
                 .Append(horizontalLine)
                 .Append(Constants.CrossSign)
@@ -168,11 +251,11 @@
 
             while (true)
             {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Clear();
-                Console.WriteLine($" Model    {Constants.VerticalLine}Manufacturer{Constants.VerticalLine} Price    {Constants.VerticalLine} Quantity {Constants.VerticalLine} (Page {currentPage + 1} of {maxPages})");
-                Console.WriteLine(sb);
+                Color.BackgroundColor(ConsoleColor.Black);
+                Color.ForegroundColor(ConsoleColor.Yellow);
+                Cursor.Clear();
+                Writer.WriteLine($" Model    {Constants.VerticalLine}Manufacturer{Constants.VerticalLine} Price    {Constants.VerticalLine} Quantity {Constants.VerticalLine} (Page {currentPage + 1} of {maxPages})");
+                Writer.WriteLine(sb.ToString());
                 bool hasProductsInCategory = false;
                 int current = 1;
 
@@ -182,22 +265,22 @@
                                             .Take(pageSize))
                 {
 
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Color.BackgroundColor(ConsoleColor.Black);
+                    Color.ForegroundColor(ConsoleColor.Yellow);
                     if (current == pointer)
                     {
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.ForegroundColor = ConsoleColor.Black;
+                        Color.BackgroundColor(ConsoleColor.Yellow);
+                        Color.ForegroundColor(ConsoleColor.Black);
                     }
-                    Console.WriteLine($"{(product.Model.Length > 10 ? product.Model.Substring(0, 10) : product.Model),10 }{Constants.VerticalLine}{product.Manufacturer,12}{Constants.VerticalLine}{product.Price,10}{Constants.VerticalLine}{product.Quantity,10}{Constants.VerticalLine}");
+                    Writer.WriteLine($"{(product.Model.Length > 10 ? product.Model.Substring(0, 10) : product.Model),10 }{Constants.VerticalLine}{product.Manufacturer,12}{Constants.VerticalLine}{product.Price,10}{Constants.VerticalLine}{product.Quantity,10}{Constants.VerticalLine}");
                     hasProductsInCategory = true;
                     current++;
                 }
 
                 if (!hasProductsInCategory)
                 {
-                    Console.WriteLine(Constants.NoProductInCategory);
-                    Console.WriteLine(Constants.PreeAnyKeyToContinue);
+                    Writer.WriteLine(Constants.NoProductInCategory);
+                    Writer.WriteLine(Constants.PreeAnyKeyToContinue);
                     Console.ReadKey();
                     Run();
                 }
@@ -245,10 +328,10 @@
         private void ShowDetails(IProduct currentProduct)
         {
 
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Clear();
-            Console.WriteLine(currentProduct);
+            Color.BackgroundColor(ConsoleColor.Black);
+            Color.ForegroundColor(ConsoleColor.Yellow);
+            Cursor.Clear();
+            Writer.WriteLine(currentProduct.ToString());
 
             Console.ReadKey();
         }
@@ -316,10 +399,9 @@
             IList<string> productData = GetProductData(categoryStr, subCategoryStr);
             this.products.Add(ProductFactory.GetProduct(category, subCategory, productData));
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine();
-            Console.WriteLine(Constants.SuccesfullyAddedProduct);
-            Console.WriteLine(Constants.PreeAnyKeyToContinue);
+            Color.ForegroundColor(ConsoleColor.Green);
+            Writer.WriteLine(Constants.SuccesfullyAddedProduct);
+            Writer.WriteLine(Constants.PreeAnyKeyToContinue);
             Console.ReadKey();
 
             this.Run();
@@ -336,27 +418,27 @@
             for (int i = 0; i < baseProperties.Length - 2; i++)
             {
                 string propertyType = baseProperties[i].PropertyType.Name;
-                Console.Write(baseProperties[i].Name + $"({propertyType})" + ": ");
+                Writer.Write(baseProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Console.WriteLine(new string(Constants.HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
+                Writer.WriteLine(new string(Constants.HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
             }
             for (int i = 0; i < currentClassProperties.Length; i++)
             {
                 string propertyType = currentClassProperties[i].PropertyType.Name;
-                Console.Write(currentClassProperties[i].Name + $"({propertyType})" + ": ");
+                Writer.Write(currentClassProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Console.WriteLine(new string(Constants.HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
+                Writer.WriteLine(new string(Constants.HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
             }
 
             return productData;
         }
 
-        private static void PrintHeadLine(string category, string subCategory)
+        private void PrintHeadLine(string category, string subCategory)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Cursor.Clear();
+            Color.ForegroundColor(ConsoleColor.Yellow);
             StringBuilder sb = new StringBuilder();
             sb.Append(new string(Constants.HorizontalLine, 23))
                 .Append(Constants.TSymbol)
@@ -366,8 +448,9 @@
                 .Append(Constants.TSymbol)
                 .Append(new string(Constants.HorizontalLine, subCategory.ToString().Length + 2));
 
-            Console.WriteLine($"Add product to Category{Constants.VerticalLine}{category}{Constants.VerticalLine}SubCategory{Constants.VerticalLine} {subCategory}");
-            Console.WriteLine(sb);
+            string headLine = $"Add product to Category{Constants.VerticalLine}{category}{Constants.VerticalLine}SubCategory{Constants.VerticalLine} {subCategory}";
+            Writer.WriteLine(headLine);
+            Writer.WriteLine(sb.ToString());
         }
 
         private void ConsoleSize()

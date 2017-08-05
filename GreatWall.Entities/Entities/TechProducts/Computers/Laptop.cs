@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Laptop : Product, ILaptop
     {
@@ -122,6 +123,22 @@
             {
                 this.operationalSystem = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Processor: {this.Processor}");
+            sb.AppendLine($"Operational Memory: {this.OperationalMemory}");
+            sb.AppendLine($"Graphic Card: {this.GraphicCard}");
+            sb.AppendLine($"Internal Memory: {this.InternalMemory}");
+            sb.AppendLine($"Display Size and Resolution: {this.DisplaySizeAndResolution}");
+            sb.AppendLine($"Optical Drive: {this.OpticalDrive}");
+            sb.AppendLine($"Battery: {this.Battery}");
+            sb.AppendLine($"Operational System: {this.OperationalSystem}");
+
+            return sb.ToString();
         }
     }
 }

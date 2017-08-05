@@ -3,6 +3,7 @@
     using System;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class GraphicCard : Product, IGraphicCard
     {
@@ -53,6 +54,17 @@
             {
                 this.memoryCapacity = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Slot Type: {this.SlotType}");
+            sb.AppendLine($"Memory Type: {this.MemoryType}");
+            sb.AppendLine($"Memory Capacity: {this.MemoryCapacity}");
+
+            return sb.ToString();
         }
     }
 }

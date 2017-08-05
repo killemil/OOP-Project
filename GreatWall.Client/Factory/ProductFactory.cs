@@ -1,9 +1,12 @@
 ﻿namespace GreatWall.Client.Factory
 {
+    using GreatWall.Entities.Entities.TechProducts.Audio;
+    using GreatWall.Entities.Entities.TechProducts.Cameras;
     using GreatWall.Entities.Entities.TechProducts.Computers;
+    using GreatWall.Entities.Entities.TechProducts.Phones;
+    using GreatWall.Entities.Entities.TechProducts.TVs;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    using System;
     using System.Collections.Generic;
 
     public static class ProductFactory
@@ -40,7 +43,26 @@
                     return new PC(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]);
                 case "PowerSupplys":
                     return new PowerSupply(manufacturer, quantity, price, color, model, weight, size, category, subCategory, int.Parse(data[7]));
-
+                case "Amplifiers":
+                    return new Amplifier(model, manufacturer, quantity, price, color, weight, size, category, subCategory, int.Parse(data[7]), data[8], bool.Parse(data[9]), bool.Parse(data[10]));
+                case "Headphones":
+                    return new Headphone(model, manufacturer, quantity, price, color, weight, size, category, subCategory, int.Parse(data[7]), int.Parse(data[8]), bool.Parse(data[9]), double.Parse(data[10]));
+                case "MediaPlayers":
+                    return new MediaPlayer(model, manufacturer, quantity, price, color, weight, size, data[7], int.Parse(data[8]), data[9], bool.Parse(data[10]), category, subCategory);
+                case "Speakers":
+                    return new Speaker(model, manufacturer, quantity, price, color, weight, size, category, subCategory, int.Parse(data[7]), data[8], int.Parse(data[9]));
+                case "PhotographicCameras":
+                    return new PhotographicCamera(data[7], data[8], data[9], data[10], data[11], data[12], data[13], manufacturer, quantity, price, color, model, weight, size, category, subCategory);
+                case "VideoCameras":
+                    return new VideoCamera(data[7], data[8], data[9], data[10], data[11], data[12], data[13], manufacturer, quantity, price, color, model, weight, size, category, subCategory);
+                case "Phones":
+                    return new Phone(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], int.Parse(data[10]));
+                case "SmartPhones":
+                    return new SmartPhone(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], int.Parse(data[10]), data[11], data[12], data[13], data[14], data[15], data[16]);
+                case "SmartTVs":
+                    return new SmartTV(manufacturer, quantity, price, color, model, weight, size, category, subCategory, bool.Parse(data[7]), data[8], data[9], data[10], data[11], int.Parse(data[12]));
+                case "TVs":
+                    return new TV(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], int.Parse(data[10]));
                 default:
                     return null;
             }

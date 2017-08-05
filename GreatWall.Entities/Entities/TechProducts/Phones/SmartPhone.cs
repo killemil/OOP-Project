@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class SmartPhone : Product, ISmartPhone
     {
@@ -107,19 +108,19 @@
         public string SimCardType
         {
             get { return this.simCardType; }
-            set { this.simCardType = value; }
+            private set { this.simCardType = value; }
         }
 
         public string MemorySlot
         {
             get { return this.memorySlot; }
-            set { this.memorySlot = value; }
+            private set { this.memorySlot = value; }
         }
 
         public string NetworkCompatibility
         {
             get { return this.networkCompatibility; }
-            set { this.networkCompatibility = value; }
+            private set { this.networkCompatibility = value; }
         }
 
         public int BatteryCapacity
@@ -132,6 +133,24 @@
             {
                 this.batteryCapacity = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Processor: {this.Processor}");
+            sb.AppendLine($"Ram Memory: {this.RamMemory}");
+            sb.AppendLine($"Internal Memory: {this.InternalMemory}");
+            sb.AppendLine($"Operational System: {this.OperationalSystem}");
+            sb.AppendLine($"Display Size: {this.DisplaySize}");
+            sb.AppendLine($"Display Type: {this.DisplayType}");
+            sb.AppendLine($"Sim Card Type: {this.SimCardType}");
+            sb.AppendLine($"Memory Slot: {this.MemorySlot}");
+            sb.AppendLine($"Network Compatibility: {this.NetworkCompatibility}");
+            sb.AppendLine($"Battery Capacity: {this.BatteryCapacity}");
+
+            return sb.ToString();
         }
     }
 }

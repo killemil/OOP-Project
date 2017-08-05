@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Motherboard : Product, IMotherboard
     {
@@ -29,6 +30,7 @@
                 this.cpuSocket = value;
             }
         }
+
         public string VideoSlot
         {
             get
@@ -51,6 +53,17 @@
             {
                 this.maxRamCapacity = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"CPU Socket: {this.CPUSocket}");
+            sb.AppendLine($"Video Slot: {this.VideoSlot}");
+            sb.AppendLine($"Max Ram Capacity: {this.MaxRamCapacity}");
+
+            return sb.ToString();
         }
     }
 }

@@ -3,6 +3,7 @@
     using GreatWall.Entities.Interfaces.TechInterfaces;
     using GreatWall.Entities.Enumerations;
     using System;
+    using System.Text;
 
     public class Speaker : Product, ISpeaker
     {
@@ -25,12 +26,18 @@
             get { return this.sensitivity; }
             set { this.sensitivity = value; }
         }
-        
 
         public int Power
         {
             get { return this.power; }
-            set { this.power = value; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Power cannot be negative number!");
+                }
+                this.power = value;
+            }
         }
 
         public string Type
@@ -43,6 +50,17 @@
             {
                 this.type = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Power(Wats): {this.Power}");
+            sb.AppendLine($"Type: {this.Type}");
+            sb.AppendLine($"Sensitivity(Mhz): {this.Sensitivity}");
+
+            return sb.ToString();
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class SmartTV : Product, ISmartTv
     {
@@ -19,7 +20,7 @@
             this.Has3DFuncton = has3DFunction;
             this.OperationalSystem = operationalSystem;
             this.DisplayType = displayType;
-            this.SizeInIncehs = sizeInInches;
+            this.SizeInInches = sizeInInches;
             this.Resolution = resolution;
             this.PowerConsumption = powerConsumption;
         }
@@ -60,7 +61,7 @@
             }
         }
 
-        public string SizeInIncehs
+        public string SizeInInches
         {
             get
             {
@@ -94,6 +95,20 @@
             {
                 this.powerConsumption = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"3D Functon: {(this.Has3DFuncton == true ? "Yes" : "No")}");
+            sb.AppendLine($"Operational System: {this.OperationalSystem}");
+            sb.AppendLine($"Display Type: {this.DisplayType}");
+            sb.AppendLine($"Size(Inches): {this.SizeInInches}");
+            sb.AppendLine($"Resolution: {this.Resolution}");
+            sb.AppendLine($"Power Consumption(Watts): {this.PowerConsumption}");
+
+            return sb.ToString();
         }
     }
 }

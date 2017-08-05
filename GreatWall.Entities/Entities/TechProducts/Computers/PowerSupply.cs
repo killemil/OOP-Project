@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class PowerSupply : Product, IPowerSupply
     {
@@ -23,6 +24,15 @@
             {
                 this.power = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Power: {this.Power}");
+
+            return sb.ToString();
         }
     }
 }

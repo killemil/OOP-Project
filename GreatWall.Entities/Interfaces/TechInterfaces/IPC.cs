@@ -2,7 +2,7 @@
 {
     public interface IPC
     {
-        string Mainboard { get; }
+        string Motherboard { get; }
 
         string Processor { get; }
 

@@ -2,10 +2,11 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class PC : Product, IPC
     {
-        private string mainboard;
+        private string motherboard;
         private string processor;
         private string operationalMemory;
         private string graphicCard;
@@ -15,10 +16,10 @@
         private string powerSupply;
 
         public PC(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string mainboard, string processor, string operationalMemory, string graphicCard, string internalMemory, string opticalDrive, string operationalSystem, string powerSupply)
+            string motherboard, string processor, string operationalMemory, string graphicCard, string internalMemory, string opticalDrive, string operationalSystem, string powerSupply)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
-            this.Mainboard = mainboard;
+            this.Motherboard = motherboard;
             this.Processor = processor;
             this.OperationalMemory = operationalMemory;
             this.GraphicCard = graphicCard;
@@ -28,15 +29,15 @@
             this.PowerSupply = powerSupply;
         }
 
-        public string Mainboard
+        public string Motherboard
         {
             get
             {
-                return this.mainboard;
+                return this.motherboard;
             }
             private set
             {
-                this.mainboard = value;
+                this.motherboard = value;
             }
         }
 
@@ -122,6 +123,22 @@
             {
                 this.powerSupply = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Motherboard: {this.Motherboard}");
+            sb.AppendLine($"Processor: {this.Processor}");
+            sb.AppendLine($"Graphic Card: {this.GraphicCard}");
+            sb.AppendLine($"Internal Memory: {this.InternalMemory}");
+            sb.AppendLine($"Optical Drive: {this.OpticalDrive}");
+            sb.AppendLine($"Operational System: {this.OperationalSystem}");
+            sb.AppendLine($"Power Supply: {this.PowerSupply}");
+            sb.AppendLine($"Operational Memory: {this.OperationalMemory}");
+
+            return sb.ToString();
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Headphone : Product, IHeadphone
     {
@@ -23,14 +24,24 @@
 
         public int SignalFrequency
         {
-            get { return signalFrequency; }
-            set { signalFrequency = value; }
+            get { return this.signalFrequency; }
+            private set
+            {
+                this.signalFrequency = value;
+            }
         }
 
         public int Power
         {
-            get { return power; }
-            set { power = value; }
+            get { return this.power; }
+            private set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Power cannot be negative number!");
+                }
+                this.power = value;
+            }
         }
 
         public bool HasCable
@@ -55,6 +66,18 @@
             {
                 this.diameter = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Power(Wats): {this.Power}");
+            sb.AppendLine($"Signal Frequency: {this.SignalFrequency}");
+            sb.AppendLine($"Cordless: {(this.HasCable == true ? "No" : "Yes")}");
+            sb.AppendLine($"Diameter: {this.Diameter}");
+
+            return sb.ToString();
         }
     }
 }

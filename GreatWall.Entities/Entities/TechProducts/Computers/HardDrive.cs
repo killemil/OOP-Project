@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class HardDrive : Product, IHardDrive
     {
@@ -11,7 +12,7 @@
         private double hardDriveWriteSpeed;
         private double hardDriveReadSpeed;
 
-        public HardDrive(string manufacturer, int quantity, decimal price, string color, string model, double weight,string size, Category category, SubCategory subCategory,
+        public HardDrive(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
             string hardDriveType, string hardDriveCapacity, string hardDriveInterface, double hardDriveWriteSpeed, double hardDriveReadSpeed)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
@@ -25,27 +26,40 @@
         public string HardDriveType
         {
             get { return this.hardDriveType; }
-            set { this.hardDriveType = value; }
+            private set { this.hardDriveType = value; }
         }
         public string HardDriveCapacity
         {
             get { return this.hardDriveCapacity; }
-            set { this.hardDriveCapacity = value; }
+            private set { this.hardDriveCapacity = value; }
         }
         public string HardDriveInterface
         {
             get { return this.hardDriveInterface; }
-            set { this.hardDriveInterface = value; }
+            private set { this.hardDriveInterface = value; }
         }
         public double HardDriveWriteSpeed
         {
             get { return this.hardDriveWriteSpeed; }
-            set { this.hardDriveWriteSpeed = value; }
+            private set { this.hardDriveWriteSpeed = value; }
         }
         public double HardDriveReadSpeed
         {
             get { return this.hardDriveReadSpeed; }
-            set { this.hardDriveReadSpeed = value; }
+            private set { this.hardDriveReadSpeed = value; }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Hard Drive Type: {this.HardDriveType}");
+            sb.AppendLine($"Hard Drive Capacity: {this.HardDriveCapacity}");
+            sb.AppendLine($"Hard Drive Interface: {this.HardDriveInterface}");
+            sb.AppendLine($"Hard Drive Write Speed: {this.HardDriveWriteSpeed}");
+            sb.AppendLine($"Hard Drive Read Speed: {this.HardDriveReadSpeed}");
+
+            return sb.ToString();
         }
     }
 }

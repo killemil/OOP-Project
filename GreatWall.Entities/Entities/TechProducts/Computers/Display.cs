@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Display : Product, IDisplay
     {
@@ -80,6 +81,19 @@
             {
                 this.colors = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Display Type: {this.DisplayType}");
+            sb.AppendLine($"Touch Screen {(this.HasTouchScreen == true ? "Yes" : "No")}");
+            sb.AppendLine($"Display Resolution: {this.DisplayResolution}");
+            sb.AppendLine($"Display Size(Inches): {this.DisplaySizeInInches}");
+            sb.AppendLine($"Colors: {this.Color}");
+
+            return sb.ToString();
         }
     }
 }

@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Console\ConsoleColour.cs" />
+    <Compile Include="Entities\Console\ConsoleCursor.cs" />
+    <Compile Include="Entities\Console\ConsoleReader.cs" />
+    <Compile Include="Entities\Console\ConsoleWriter.cs" />
     <Compile Include="Entities\TechProducts\Audio\Amplifier.cs" />
     <Compile Include="Entities\TechProducts\Cameras\PhotographicCamera.cs" />
     <Compile Include="Entities\TechProducts\Cameras\VideoCamera.cs" />
@@ -62,6 +66,10 @@
     <Compile Include="Entities\TechProducts\TVs\TV.cs" />
     <Compile Include="Enumerations\Category.cs" />
     <Compile Include="Enumerations\SubCategory.cs" />
+    <Compile Include="Interfaces\Console\IColor.cs" />
+    <Compile Include="Interfaces\Console\ICursor.cs" />
+    <Compile Include="Interfaces\Console\IReader.cs" />
+    <Compile Include="Interfaces\Console\IWriter.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Interfaces\TechInterfaces\IAmplifier.cs" />

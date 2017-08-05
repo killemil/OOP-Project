@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Battery : Product, IBattery
     {
@@ -19,12 +20,22 @@
         public string BatteryType
         {
             get { return this.batteryType; }
-            set { this.batteryType = value; }
+            private set { this.batteryType = value; }
         }
         public string BatteryCapacity
         {
             get { return this.batteryCapacity; }
-            set { this.batteryCapacity = value; }
+            private set { this.batteryCapacity = value; }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Battery Type: {this.BatteryType}");
+            sb.AppendLine($"Battery Capacity: {this.BatteryCapacity}");
+
+            return sb.ToString();
         }
     }
 }

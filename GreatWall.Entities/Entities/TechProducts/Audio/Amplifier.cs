@@ -2,6 +2,8 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
+    using System.Text;
 
     public class Amplifier : Product, IAmplifier
     {
@@ -22,8 +24,15 @@
 
         public int Power
         {
-            get { return power; }
-            set { power = value; }
+            get { return this.power; }
+            private set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Power cannot be negative number!");
+                }
+                this.power = value;
+            }
         }
 
         public string Channels
@@ -60,6 +69,18 @@
             {
                 this.hasRemoteControl = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Power(Wats): {this.Power}");
+            sb.AppendLine($"Number of channels: {this.Channels}");
+            sb.AppendLine($"Tuner: {(this.HasTuner == true ? "Yes" : "No")}");
+            sb.AppendLine($"Remote Control: {(this.HasRemoteControl == true ? "Yes" : "No")}");
+
+            return sb.ToString();
         }
     }
 }

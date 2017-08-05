@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class PhotographicCamera : Product, IVideoCamera
     {
@@ -31,43 +32,59 @@
         public string BatteryType
         {
             get { return this.batteryType; }
-            set { this.batteryType = value; }
+            private set { this.batteryType = value; }
         }
 
         public string BatteryCapacity
         {
             get { return this.batteryCapacity; }
-            set { this.batteryCapacity = value; }
+            private set { this.batteryCapacity = value; }
         }
 
         public string MemoryType
         {
             get { return this.memoryType; }
-            set { this.memoryType = value; }
+            private set { this.memoryType = value; }
         }
 
         public string MemorySpeed
         {
             get { return this.memorySpeed; }
-            set { this.memorySpeed = value; }
+            private set { this.memorySpeed = value; }
         }
 
         public string MemoryCapacity
         {
             get { return this.memoryCapacity; }
-            set { this.memoryCapacity = value; }
+            private set { this.memoryCapacity = value; }
         }
 
         public string LensDesign
         {
             get { return this.lensDesign; }
-            set { this.lensDesign = value; }
+            private set { this.lensDesign = value; }
         }
 
         public string LensManufacturer
         {
             get { return this.lensManufacturer; }
-            set { this.lensManufacturer = value; }
+            private set { this.lensManufacturer = value; }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Battery Type: {this.BatteryType}");
+            sb.AppendLine($"Battery Capacity: {this.BatteryCapacity}");
+            sb.AppendLine($"Memory Type: {this.MemoryType}");
+            sb.AppendLine($"Memory Speed: {this.MemorySpeed}");
+            sb.AppendLine($"Memory Capacity: {this.MemoryCapacity}");
+            sb.AppendLine($"Lens Design: {this.LensDesign}");
+            sb.AppendLine($"Lens Manufacturer: {this.LensManufacturer}");
+
+            return sb.ToString();
         }
     }
 }
+

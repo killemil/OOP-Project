@@ -2,6 +2,7 @@
 {
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System.Text;
 
     public class Memory : Product, IMemory
     {
@@ -52,6 +53,17 @@
             {
                 this.capacity = value;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            sb.AppendLine($"Type: {this.Type}");
+            sb.AppendLine($"Speed: {this.Speed}");
+            sb.AppendLine($"Capacity: {this.Capacity}");
+
+            return sb.ToString();
         }
     }
 }
