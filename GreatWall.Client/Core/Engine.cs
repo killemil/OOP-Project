@@ -12,12 +12,15 @@
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Console;
     using GreatWall.Entities.Entities.Console;
+    using GreatWall.Entities.Interfaces.Customers;
+    using System.IO;
 
     public class Engine
     {
         private string browseOrAdd;
         private string[] menuItems;
         private IList<IProduct> products;
+        private IList<ICustomer> customers;
         private IWriter writer;
         private IReader reader;
         private IColor color;
@@ -33,6 +36,7 @@
                 "Exit"
             };
             this.products = new List<IProduct>(Seed.SeedData());
+            this.customers = new List<ICustomer>();
             this.Writer = new ConsoleWriter();
             this.Reader = new ConsoleReader();
             this.Color = new ConsoleColour();
@@ -89,7 +93,17 @@
         public void Run()
         {
             this.ConsoleSize();
-            ShowMenu(this.menuItems, "mainMenu");
+            try
+            {
+                ShowMenu(this.menuItems, "mainMenu");
+            }
+            catch (Exception e)
+            {
+                Color.ForegroundColor(ConsoleColor.Red);
+                Writer.WriteLine(e.Message);
+                Console.ReadKey();
+                Run();
+            }
         }
 
         private void ShowMenu(IList<string> list, string menu, params int[] categoryNumber)
@@ -327,13 +341,137 @@
 
         private void ShowDetails(IProduct currentProduct)
         {
-
             Color.BackgroundColor(ConsoleColor.Black);
             Color.ForegroundColor(ConsoleColor.Yellow);
             Cursor.Clear();
+            DrawDetailsView();
+            Cursor.SetCursorPosition(0, 1);
             Writer.WriteLine(currentProduct.ToString());
 
-            Console.ReadKey();
+            ShowDetailsMenu(currentProduct);
+        }
+
+        private void ShowDetailsMenu(IProduct currentProduct)
+        {
+            IList<string> detailsMenu = new List<string>
+            {
+                "Buy product",
+                "Back"
+            };
+            int pointer = 1;
+            while (true)
+            {
+                Cursor.SetCursorPosition(5, 20);
+                int current = 1;
+                foreach (var menuItem in detailsMenu)
+                {
+                    Color.BackgroundColor(ConsoleColor.Black);
+                    Color.ForegroundColor(ConsoleColor.Yellow);
+                    if (current == pointer)
+                    {
+                        Color.BackgroundColor(ConsoleColor.Yellow);
+                        Color.ForegroundColor(ConsoleColor.Black);
+                    }
+                    current++;
+                    Cursor.CursorLeft(5);
+                    Writer.WriteLine(menuItem);
+                }
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.Enter:
+                        if (pointer == 2)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            IList<string> customerDetails = GetCustomerDetails();
+                            SaleProduct(customerDetails, currentProduct);
+                            return;
+                        }
+                    case ConsoleKey.UpArrow:
+                        if (pointer > 1)
+                        {
+                            pointer--;
+                        }
+                        else if (pointer <= 1)
+                        {
+                            pointer = detailsMenu.Count;
+                        }
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (pointer < detailsMenu.Count)
+                        {
+                            pointer++;
+                        }
+                        else if (pointer >= detailsMenu.Count)
+                        {
+                            pointer = 1;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        private void SaleProduct(IList<string> customerDetails, IProduct currentProduct)
+        {
+            int customerWantedQuantity = int.Parse(customerDetails[3]);
+            if (customerWantedQuantity > currentProduct.Quantity)
+            {
+                throw new InvalidOperationException("There isn't enough pieces of this product!");
+            }
+
+            ICustomer customer = CustomerFactory.CreateCustomer(customerDetails, currentProduct);
+            this.customers.Add(customer);
+            RemoveProduct(currentProduct, customerWantedQuantity);
+
+            //TODO..
+            // PrintReceipt(customerDetails, currentProduct);
+        }
+
+        private void PrintReceipt(IList<string> customerDetails, IProduct currentProduct)
+        {
+            //FileStream file = new FileStream("..\\..\\..\\ExportSales" + "\\" + $"{customerDetails[0]} {customerDetails[2]}.txt", FileMode.Create);
+            //file.BeginWrit
+        }
+
+        private void RemoveProduct(IProduct currentProduct, int saledQuantity)
+        {
+            if (currentProduct.Quantity - saledQuantity == 0)
+            {
+                this.products.Remove(currentProduct);
+                return;
+            }
+            this.products.First(p => p == currentProduct).Quantity -= saledQuantity;
+        }
+
+        private IList<string> GetCustomerDetails()
+        {
+            Cursor.Clear();
+            DrawDetailsView();
+            Cursor.CursorTop(1);
+            IList<string> customerDetails = new List<string>();
+            Writer.Write("Enter name: ");
+            customerDetails.Add(Reader.ReadLine());
+            Writer.Write("Enter address for delivery: ");
+            customerDetails.Add(Reader.ReadLine());
+            Writer.Write("Telephone number: ");
+            customerDetails.Add(Reader.ReadLine());
+            Writer.Write("Number of products: ");
+            customerDetails.Add(Reader.ReadLine());
+
+            return customerDetails;
+        }
+
+        private void DrawDetailsView()
+        {
+            Writer.Write(Constants.TopLeftAngle + new string(Constants.HorizontalLine, Console.BufferWidth - 2) + Constants.TopRightAngle);
+            Cursor.SetCursorPosition(0, Console.BufferHeight - 2);
+            Writer.Write(Constants.BottomLeftAngle + new string(Constants.HorizontalLine, Console.BufferWidth - 2) + Constants.BottomRightAngle);
         }
 
         private void SelectSubCategories(int currentSelection, string actionType)
@@ -407,12 +545,12 @@
             this.Run();
         }
 
-        private IList<string> GetProductData(string categoryStr, string subCategoryStr)
+        private IList<string> GetProductData(string currentCategoryStr, string currentSubCategoryStr)
         {
-            string className = subCategoryStr.Substring(0, subCategoryStr.Length - 1);
-            Type element = Type.GetType(Constants.ClassesNamespace + categoryStr + "." + className + Constants.AssemblyName);
-            PropertyInfo[] baseProperties = element.BaseType.GetProperties();
-            PropertyInfo[] currentClassProperties = element.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            string className = currentSubCategoryStr.Substring(0, currentSubCategoryStr.Length - 1);
+            Type currentClass = Type.GetType(Constants.ClassesNamespace + currentCategoryStr + "." + className + Constants.AssemblyName);
+            PropertyInfo[] baseProperties = currentClass.BaseType.GetProperties();
+            PropertyInfo[] currentClassProperties = currentClass.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
             IList<string> productData = new List<string>();
             for (int i = 0; i < baseProperties.Length - 2; i++)
@@ -421,7 +559,7 @@
                 Writer.Write(baseProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Writer.WriteLine(new string(Constants.HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
+                Writer.WriteLine(new string(Constants.HorizontalLine, baseProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.BottomRightAngle);
             }
             for (int i = 0; i < currentClassProperties.Length; i++)
             {
@@ -429,7 +567,7 @@
                 Writer.Write(currentClassProperties[i].Name + $"({propertyType})" + ": ");
                 string productInfo = Console.ReadLine();
                 productData.Add(productInfo);
-                Writer.WriteLine(new string(Constants.HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.EndChar);
+                Writer.WriteLine(new string(Constants.HorizontalLine, currentClassProperties[i].Name.Length + propertyType.Length + productInfo.Length + 4) + Constants.BottomRightAngle);
             }
 
             return productData;

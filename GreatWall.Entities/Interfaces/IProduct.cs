@@ -8,7 +8,7 @@ namespace GreatWall.Entities.Interfaces
 
         string Manufacturer { get; }
 
-        int Quantity { get; }
+        int Quantity { get; set; }
 
         decimal Price { get; }
 

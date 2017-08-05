@@ -61,7 +61,7 @@
             sb.AppendLine(base.ToString());
             sb.AppendLine($"CPU Socket: {this.CPUSocket}");
             sb.AppendLine($"Video Slot: {this.VideoSlot}");
-            sb.AppendLine($"Max Ram Capacity: {this.MaxRamCapacity}");
+            sb.AppendLine($"Max Ram Capacity: {this.MaxRamCapacity} MB");
 
             return sb.ToString();
         }

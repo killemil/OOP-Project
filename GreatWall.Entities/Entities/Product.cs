@@ -53,7 +53,7 @@
             {
                 return this.quantity;
             }
-            private set
+            set
             {
                 this.quantity = value;
             }
@@ -125,11 +125,12 @@
             {
                 return this.subCategory;
             }
-            private set
+            set
             {
                 this.subCategory = value;
             }
         }
+        
 
         public override string ToString()
         {
