@@ -1,5 +1,6 @@
 ﻿namespace GreatWall.Client.Factory
 {
+    using System.Collections.Generic;
     using GreatWall.Entities.Entities.TechProducts.Audio;
     using GreatWall.Entities.Entities.TechProducts.Cameras;
     using GreatWall.Entities.Entities.TechProducts.Computers;
@@ -7,7 +8,6 @@
     using GreatWall.Entities.Entities.TechProducts.TVs;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    using System.Collections.Generic;
 
     public static class ProductFactory
     {

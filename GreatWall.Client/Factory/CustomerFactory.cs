@@ -1,10 +1,9 @@
-﻿
-namespace GreatWall.Client.Factory
+﻿namespace GreatWall.Client.Factory
 {
+    using System.Collections.Generic;
     using GreatWall.Entities.Entities.Customers;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Customers;
-    using System.Collections.Generic;
 
     public static class CustomerFactory
     {

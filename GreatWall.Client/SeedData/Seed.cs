@@ -1,12 +1,11 @@
 ﻿namespace GreatWall.Client.SeedData
 {
+    using System.Collections.Generic;
+    using System.IO;
     using GreatWall.Entities.Entities.TechProducts.Computers;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    using System.Collections.Generic;
-    using System.IO;
-    using System;
-
+    
     public static class Seed
     {
         public static IList<IProduct> SeedData()
@@ -35,8 +34,8 @@
                 string size = tokens[6];
                 string type = tokens[7];
                 string capacity = tokens[8];
-                Category category = (Category)100;
-                SubCategory subCategory = (SubCategory)(4 + (int)category);
+                Category category = Category.Computers;
+                SubCategory subCategory = SubCategory.Batterys;
 
                 products.Add(new Battery(manufacturer, quantity, price, color, model, weight, size, category, subCategory, type, capacity));
             }
@@ -58,8 +57,8 @@
                 string cpuSocket = tokens[7];
                 string videoSlot = tokens[8];
                 int maxRam = int.Parse(tokens[9]);
-                Category category = (Category)100;
-                SubCategory subCategory = (SubCategory)(10 + (int)category);
+                Category category = Category.Computers;
+                SubCategory subCategory = SubCategory.Motherboards;
 
                 products.Add(new Motherboard(manufacturer, quantity, price, color, model, weight, size, category, subCategory, cpuSocket, videoSlot, maxRam));
             }
@@ -80,8 +79,8 @@
                 string size = tokens[6];
                 string capacity = tokens[7];
                 int cores = int.Parse(tokens[8]);
-                Category category = (Category)100;
-                SubCategory subCategory = (SubCategory)(3 + (int)category);
+                Category category = Category.Computers;
+                SubCategory subCategory = SubCategory.Processors;
 
                 products.Add(new Processor(manufacturer, quantity, price, color, model, capacity, cores, weight, size, category, subCategory));
             }
