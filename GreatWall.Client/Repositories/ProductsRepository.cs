@@ -12,56 +12,77 @@
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Console;
     using GreatWall.Entities.Interfaces.Repository;
+    using GreatWall.Entities.Interfaces.Customers;
 
-    public class ProductRepository : IProductRepository<IProduct>
+    public class ProductsRepository : IRepository
     {
-        private IList<IProduct> data;
+        private IList<IProduct> products;
+        private IList<ICustomer> customers;
         private IWriter writer;
         private IReader reader;
 
-        public ProductRepository()
+        public ProductsRepository()
         {
-            this.Data = new List<IProduct>(Seed.SeedData());
+            this.Products = new List<IProduct>(Seed.SeedData());
+            this.Customers = new List<ICustomer>();
             this.reader = new ConsoleReader();
             this.writer = new ConsoleWriter();
         }
 
-        public IList<IProduct> Data
+        public IList<IProduct> Products
         {
             get
             {
-                return this.data;
+                return this.products;
             }
 
             private set
             {
-                this.data = value;
+                this.products = value;
             }
         }
 
-        public void Add(Category category, SubCategory subCategory)
+        public IList<ICustomer> Customers
+        {
+            get
+            {
+                return this.customers;
+            }
+            private set
+            {
+                this.customers = value;
+            }
+        }
+
+        public void AddProduct(Category category, SubCategory subCategory)
         {
             string categoryStr = category.ToString();
             string subCategoryStr = subCategory.ToString();
 
             IList<string> productData = this.GetProductData(categoryStr, subCategoryStr);
-            this.Data.Add(ProductFactory.GetProduct(category, subCategory, productData));
+            this.Products.Add(ProductFactory.GetProduct(category, subCategory, productData));
         }
 
-        public IList<IProduct> GetData(SubCategory subcategory)
+        public void AddClient(IList<string> customerDetails, IProduct currentProduct)
         {
-            return this.Data.Where(p => p.SubCategory == subcategory).ToList();
+            ICustomer customer = CustomerFactory.CreateCustomer(customerDetails, currentProduct);
+            this.Customers.Add(customer);
         }
 
-        public void Remove(IProduct currentProduct, int quantity)
+        public IList<IProduct> GetProductData(SubCategory subcategory)
+        {
+            return this.Products.Where(p => p.SubCategory == subcategory).ToList();
+        }
+
+        public void RemoveProduct(IProduct currentProduct, int quantity)
         {
             if (currentProduct.Quantity - quantity == 0)
             {
-                this.Data.Remove(currentProduct);
+                this.Products.Remove(currentProduct);
                 return;
             }
 
-            this.Data.First(p => p == currentProduct).Quantity -= quantity;
+            this.Products.First(p => p == currentProduct).Quantity -= quantity;
         }
 
         private IList<string> GetProductData(string currentCategoryStr, string currentSubCategoryStr)

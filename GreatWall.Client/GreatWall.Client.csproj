@@ -49,8 +49,7 @@
     <Compile Include="Factory\CustomerFactory.cs" />
     <Compile Include="Factory\ProductFactory.cs" />
     <Compile Include="SaleLogger\Logger.cs" />
-    <Compile Include="Repositories\CustomerRepository.cs" />
-    <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\ProductsRepository.cs" />
     <Compile Include="SeedData\Seed.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

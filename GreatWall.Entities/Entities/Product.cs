@@ -1,8 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities
 {
+    using System.Text;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    using System.Text;
+    using GreatWall.Entities.Exceptions;
 
     public abstract class Product : IProduct
     {
@@ -55,6 +56,10 @@
             }
             set
             {
+                if (value <= 0)
+                {
+                    throw new NegativeNumberException($"The {nameof(this.Quantity)} cannot be negative number!");
+                }
                 this.quantity = value;
             }
         }
@@ -67,6 +72,10 @@
             }
             private set
             {
+                if (value <= 0)
+                {
+                    throw new NegativeNumberException($"The {nameof(this.Price)} cannot be negative number!");
+                }
                 this.price = value;
             }
         }
@@ -91,6 +100,10 @@
             }
             private set
             {
+                if (value <= 0)
+                {
+                    throw new NegativeNumberException($"The { nameof(this.Weight) } cannot be negative number!");
+                }
                 this.weight = value;
             }
         }
@@ -130,7 +143,7 @@
                 this.subCategory = value;
             }
         }
-        
+
 
         public override string ToString()
         {

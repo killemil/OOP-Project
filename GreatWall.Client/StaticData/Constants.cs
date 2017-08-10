@@ -17,7 +17,6 @@
         public const string NoProductInCategory = "No products in this category.";
         public const string AdminUsername = "admin";
         public const string AdminPassword = "password";
-        public const string InvalidUsernameOrPassword = "Invalid username or passowrd!";
         public const string SuccessLogin = "You succesfully logged in!";
         public const string SuccessfullyPlacedOrder = "Your order has been placed!";
         public const string Logo = @"

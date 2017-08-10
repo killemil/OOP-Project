@@ -67,6 +67,9 @@
     <Compile Include="Entities\TechProducts\TVs\TV.cs" />
     <Compile Include="Enumerations\Category.cs" />
     <Compile Include="Enumerations\SubCategory.cs" />
+    <Compile Include="Exceptions\InvalidUsernamerOrPasswordException.cs" />
+    <Compile Include="Exceptions\NegativeNumberException.cs" />
+    <Compile Include="Exceptions\NotEnoughProductsException.cs" />
     <Compile Include="Interfaces\Console\IColor.cs" />
     <Compile Include="Interfaces\Console\ICursor.cs" />
     <Compile Include="Interfaces\Console\IReader.cs" />
@@ -74,8 +77,7 @@
     <Compile Include="Interfaces\Customers\ICustomer.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Entities\Product.cs" />
-    <Compile Include="Interfaces\Repository\IClientRepository.cs" />
-    <Compile Include="Interfaces\Repository\IProductRepository.cs" />
+    <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\TechInterfaces\IAmplifier.cs" />
     <Compile Include="Interfaces\TechInterfaces\IAudio.cs" />
     <Compile Include="Interfaces\TechInterfaces\IBattery.cs" />

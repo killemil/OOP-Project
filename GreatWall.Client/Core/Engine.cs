@@ -8,23 +8,18 @@
     using GreatWall.Client.StaticData;
     using GreatWall.Entities.Entities.Console;
     using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Console;
-    using GreatWall.Entities.Interfaces.Customers;
     using GreatWall.Entities.Interfaces.Repository;
 
     public class Engine
     {
         private string browseOrAdd;
         private string[] menuItems;
-        private IWriter writer;
-        private IReader reader;
-        private IColor color;
-        private ICursor cursor;
-        private IProductRepository<IProduct> productRepository;
-        private IClientRepository<ICustomer> customerRepository;
+        private IRepository productRepository;
 
-        public Engine(IProductRepository<IProduct> productRepository, IClientRepository<ICustomer> customerRepository)
+        public Engine(IRepository productRepository)
         {
             this.menuItems = new string[]
             {
@@ -38,60 +33,15 @@
             this.Color = new ConsoleColour();
             this.Cursor = new ConsoleCursor();
             this.productRepository = productRepository;
-            this.customerRepository = customerRepository;
         }
 
-        private IWriter Writer
-        {
-            get
-            {
-                return this.writer;
-            }
+        public IWriter Writer { get; private set; }
 
-            set
-            {
-                this.writer = value;
-            }
-        }
+        public IReader Reader { get; private set; }
 
-        private IReader Reader
-        {
-            get
-            {
-                return this.reader;
-            }
+        public IColor Color { get; private set; }
 
-            set
-            {
-                this.reader = value;
-            }
-        }
-
-        private IColor Color
-        {
-            get
-            {
-                return this.color;
-            }
-
-            set
-            {
-                this.color = value;
-            }
-        }
-
-        private ICursor Cursor
-        {
-            get
-            {
-                return this.cursor;
-            }
-
-            set
-            {
-                this.cursor = value;
-            }
-        }
+        public ICursor Cursor { get; private set; }
 
         public void Run()
         {
@@ -212,7 +162,7 @@
                 SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
                 this.PrintHeadLine(category.ToString(), subCategory.ToString());
-                this.productRepository.Add(category, subCategory);
+                this.productRepository.AddProduct(category, subCategory);
 
                 this.Color.ForegroundColor(ConsoleColor.Green);
                 this.Writer.WriteLine(Constants.SuccesfullyAddedProduct);
@@ -242,26 +192,21 @@
                 this.Writer.Write("Enter password: ");
                 string password = this.Reader.ReadLine();
 
-                if (userName != Constants.AdminUsername && password != Constants.AdminPassword)
+                if (userName != Constants.AdminUsername || password != Constants.AdminPassword)
                 {
                     this.Color.ForegroundColor(ConsoleColor.Red);
-                    this.Writer.WriteLine(Constants.InvalidUsernameOrPassword);
-                    this.Writer.WriteLine(Constants.PreeAnyKeyToContinue);
-                    Console.ReadKey();
-                    this.Run();
+                    throw new InvalidUsernamerOrPasswordException();
                 }
-                else
-                {
-                    this.Color.ForegroundColor(ConsoleColor.Green);
-                    this.Writer.Write(Constants.SuccessLogin);
-                    Console.ReadKey();
-                }
+
+                this.Color.ForegroundColor(ConsoleColor.Green);
+                this.Writer.Write(Constants.SuccessLogin);
+                Console.ReadKey();
             }
         }
 
         private void BrowseProducts(Category category, SubCategory subCategory)
         {
-            IList<IProduct> products = this.productRepository.GetData(subCategory);
+            IList<IProduct> products = this.productRepository.GetProductData(subCategory);
 
             int pageSize = 7;
             int currentPage = 0;
@@ -444,11 +389,11 @@
             int customerWantedQuantity = int.Parse(customerDetails[3]);
             if (customerWantedQuantity > currentProduct.Quantity)
             {
-                throw new InvalidOperationException("There isn't enough pieces of this product!");
+                throw new NotEnoughProductsException();
             }
 
-            this.customerRepository.Add(customerDetails, currentProduct);
-            this.productRepository.Remove(currentProduct, customerWantedQuantity);
+            this.productRepository.AddClient(customerDetails, currentProduct);
+            this.productRepository.RemoveProduct(currentProduct, customerWantedQuantity);
 
             Logger.ExportPdfLog(customerDetails, currentProduct);
             this.Color.ForegroundColor(ConsoleColor.Green);

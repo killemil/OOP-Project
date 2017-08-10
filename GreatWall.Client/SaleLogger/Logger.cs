@@ -28,7 +28,8 @@
 
             Font calibri = new Font(Font.FontFamily.COURIER, 14, Font.ITALIC);
 
-            Paragraph p1 = new Paragraph($"Customer Name: {name}", calibri);
+            Paragraph p0 = new Paragraph($"Order Date: {DateTime.Now}", calibri);
+            Paragraph p1 = new Paragraph($"Customer name: {name}", calibri);
             Paragraph p2 = new Paragraph($"Address to deliver: {address}", calibri);
             Paragraph p3 = new Paragraph($"Telephone number: {telephone}", calibri);
             Paragraph p4 = new Paragraph($"Product price: {currentProduct.Price}$", calibri);
@@ -37,6 +38,7 @@
             Paragraph p7 = new Paragraph("Product info:", calibri);
             Paragraph p8 = new Paragraph($"{currentProduct.ToString()}", calibri);
 
+            document.Add(p0);
             document.Add(p1);
             document.Add(p2);
             document.Add(p3);

@@ -10,9 +10,8 @@
     {
         public static void Main()
         {
-            IProductRepository<IProduct> productRepo = new ProductRepository();
-            IClientRepository<ICustomer> customersRepo = new CustomerRepository();
-            Engine engine = new Engine(productRepo, customersRepo);
+            IRepository productRepo = new ProductsRepository();
+            Engine engine = new Engine(productRepo);
             engine.Run();
         }
     }
