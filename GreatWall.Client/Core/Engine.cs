@@ -11,6 +11,8 @@
     using GreatWall.Entities.Exceptions;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Console;
+    using GreatWall.Entities.Interfaces.Customers;
+    using GreatWall.Entities.Interfaces.DataCollector;
     using GreatWall.Entities.Interfaces.Repository;
 
     public class Engine
@@ -18,6 +20,7 @@
         private string browseOrAdd;
         private string[] menuItems;
         private IRepository productRepository;
+        private ICollector dataCollector;
 
         public Engine(IRepository productRepository)
         {
@@ -25,14 +28,16 @@
             {
                 "Add Product",
                 "Browse Products",
+                "Sales History",
                 "About",
                 "Exit"
             };
+            this.dataCollector = new DataCollector(this.Reader, this.Writer);
+            this.productRepository = productRepository;
             this.Writer = new ConsoleWriter();
             this.Reader = new ConsoleReader();
             this.Color = new ConsoleColour();
             this.Cursor = new ConsoleCursor();
-            this.productRepository = productRepository;
         }
 
         public IWriter Writer { get; private set; }
@@ -144,7 +149,11 @@
                     this.LoginForAddingProduct();
                     this.ShowMenu(categories, "subCategory", currentSelection);
                 }
-                else if (currentSelection == 4)
+                else if (currentSelection == 3)
+                {
+                    this.ShowSaleHistory();
+                }
+                else if (currentSelection == 5)
                 {
                     Environment.Exit(0);
                 }
@@ -161,8 +170,11 @@
                 Category category = (Category)(categoryNumber[0] * 100);
                 SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
-                this.PrintHeadLine(category.ToString(), subCategory.ToString());
-                this.productRepository.AddProduct(category, subCategory);
+                string categoryStr = category.ToString();
+                string subCategoryStr = subCategory.ToString();
+                this.PrintHeadLine(categoryStr, subCategoryStr);
+                IList<string> productData = this.dataCollector.GetProductData(categoryStr, subCategoryStr);
+                this.productRepository.AddProduct(category, subCategory, productData);
 
                 this.Color.ForegroundColor(ConsoleColor.Green);
                 this.Writer.WriteLine(Constants.SuccesfullyAddedProduct);
@@ -181,6 +193,99 @@
 
                 this.BrowseProducts(category, subCategory);
             }
+        }
+
+        private void ShowSaleHistory()
+        {
+            IList<ICustomer> sales = this.productRepository.GetAllCustomers();
+
+            int pageSize = 7;
+            int currentPage = 0;
+            int maxPages = (int)Math.Ceiling(sales.Count() / (double)pageSize);
+            int pointer = 1;
+
+            while (true)
+            {
+                this.Color.BackgroundColor(ConsoleColor.Black);
+                this.Color.ForegroundColor(ConsoleColor.Yellow);
+                this.Cursor.Clear();
+                this.Writer.WriteLine($" Customer     {Constants.VerticalLine}Address             {Constants.VerticalLine}Telephone    {Constants.VerticalLine} (Page {currentPage + 1} of {maxPages})");
+                StringBuilder sb = new StringBuilder();
+                sb.Append(new string(Constants.HorizontalLine, 14))
+                .Append(Constants.CrossSign)
+                .Append(new string(Constants.HorizontalLine, 20))
+                .Append(Constants.CrossSign)
+                .Append(new string(Constants.HorizontalLine, 13))
+                .Append(Constants.CrossSign);
+                this.Writer.WriteLine(sb.ToString());
+
+                int current = 1;
+
+                foreach (var sale in sales.Skip(pageSize * currentPage).Take(pageSize))
+                {
+                    this.Color.BackgroundColor(ConsoleColor.Black);
+                    this.Color.ForegroundColor(ConsoleColor.Yellow);
+                    if (current == pointer)
+                    {
+                        this.Color.BackgroundColor(ConsoleColor.Yellow);
+                        this.Color.ForegroundColor(ConsoleColor.Black);
+                    }
+
+                    this.Writer.WriteLine($"{(sale.Name.Length > 14 ? sale.Name.Substring(0, 14) : sale.Name),14 }{Constants.VerticalLine}{(sale.Address.Length > 20 ? sale.Address.Substring(0, 20) : sale.Address),20}{Constants.VerticalLine}{(sale.TelephoneNumber.Length > 13 ? sale.TelephoneNumber.Substring(0, 13) : sale.TelephoneNumber),13}{Constants.VerticalLine}");
+                    current++;
+                }
+
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.Enter:
+                        ICustomer currentSale = sales
+                            .Skip((pageSize * currentPage) + pointer - 1)
+                            .FirstOrDefault();
+                        this.ShowSaleDetails(currentSale);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (pointer > 1)
+                        {
+                            pointer--;
+                        }
+                        else if (currentPage > 0)
+                        {
+                            currentPage--;
+                            pointer = pageSize;
+                        }
+
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (pointer < pageSize)
+                        {
+                            pointer++;
+                        }
+                        else if (currentPage + 1 < maxPages)
+                        {
+                            currentPage++;
+                            pointer = 1;
+                        }
+
+                        break;
+                    case ConsoleKey.Escape:
+                        this.Run();
+                        break;
+                }
+            }
+        }
+
+        private void ShowSaleDetails(ICustomer currentSale)
+        {
+            this.Color.BackgroundColor(ConsoleColor.Black);
+            this.Color.ForegroundColor(ConsoleColor.Yellow);
+            this.Cursor.Clear();
+            this.DrawDetailsView();
+            this.Cursor.SetCursorPosition(0, 1);
+            this.Writer.WriteLine(currentSale.ToString());
+
+            Console.ReadKey();
         }
 
         private void LoginForAddingProduct()
@@ -351,7 +456,10 @@
                         }
                         else
                         {
-                            IList<string> customerDetails = GetCustomerDetails();
+                            this.Cursor.Clear();
+                            this.DrawDetailsView();
+                            this.Cursor.CursorTop(1);
+                            IList<string> customerDetails = this.dataCollector.GetCustomerDetails();
                             this.SaleProduct(customerDetails, currentProduct);
                             return;
                         }
@@ -403,27 +511,9 @@
             this.Run();
         }
 
-        private IList<string> GetCustomerDetails()
-        {
-            this.Cursor.Clear();
-            this.DrawDetailsView();
-            this.Cursor.CursorTop(1);
-            IList<string> customerDetails = new List<string>();
-            this.Writer.Write("Enter name: ");
-            customerDetails.Add(this.Reader.ReadLine());
-            this.Writer.Write("Enter address for delivery: ");
-            customerDetails.Add(this.Reader.ReadLine());
-            this.Writer.Write("Telephone number: ");
-            customerDetails.Add(this.Reader.ReadLine());
-            this.Writer.Write("Number of products: ");
-            customerDetails.Add(this.Reader.ReadLine());
-
-            return customerDetails;
-        }
-
         private void DrawDetailsView()
         {
-            this.Writer.Write(Constants.TopLeftAngle + new string(Constants.HorizontalLine, Console.BufferWidth - 2) + Constants.TopRightAngle);
+            this.Writer.Write(Constants.TopLeftAngle + new string(Constants.HorizontalLine, (Console.BufferWidth / 2) - 4) + "Details" + new string(Constants.HorizontalLine, (Console.BufferWidth / 2) - 5) + Constants.TopRightAngle);
             this.Cursor.SetCursorPosition(0, Console.BufferHeight - 2);
             this.Writer.Write(Constants.BottomLeftAngle + new string(Constants.HorizontalLine, Console.BufferWidth - 2) + Constants.BottomRightAngle);
         }

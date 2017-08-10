@@ -6,7 +6,7 @@
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     
-    public static class Seed
+    public static class ProductsSeed
     {
         public static IList<IProduct> SeedData()
         {

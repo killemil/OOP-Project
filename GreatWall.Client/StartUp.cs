@@ -4,6 +4,7 @@
     using GreatWall.Client.Repositories;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Customers;
+    using GreatWall.Entities.Interfaces.DataCollector;
     using GreatWall.Entities.Interfaces.Repository;
 
     public class StartUp
