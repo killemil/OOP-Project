@@ -32,12 +32,12 @@
                 "About",
                 "Exit"
             };
-            this.dataCollector = new DataCollector(this.Reader, this.Writer);
             this.productRepository = productRepository;
             this.Writer = new ConsoleWriter();
             this.Reader = new ConsoleReader();
             this.Color = new ConsoleColour();
             this.Cursor = new ConsoleCursor();
+            this.dataCollector = new DataCollector(this.Reader, this.Writer);
         }
 
         public IWriter Writer { get; private set; }
@@ -231,7 +231,7 @@
                         this.Color.ForegroundColor(ConsoleColor.Black);
                     }
 
-                    this.Writer.WriteLine($"{(sale.Name.Length > 14 ? sale.Name.Substring(0, 14) : sale.Name),14 }{Constants.VerticalLine}{(sale.Address.Length > 20 ? sale.Address.Substring(0, 20) : sale.Address),20}{Constants.VerticalLine}{(sale.TelephoneNumber.Length > 13 ? sale.TelephoneNumber.Substring(0, 13) : sale.TelephoneNumber),13}{Constants.VerticalLine}");
+                    this.Writer.WriteLine($"{(sale.Name.Length > 13 ? sale.Name.Substring(0, 13) : sale.Name),14 }{Constants.VerticalLine}{(sale.Address.Length > 19 ? sale.Address.Substring(0, 19) : sale.Address),20}{Constants.VerticalLine}{(sale.TelephoneNumber.Length > 12 ? sale.TelephoneNumber.Substring(0, 12) : sale.TelephoneNumber),13}{Constants.VerticalLine}");
                     current++;
                 }
 
@@ -292,12 +292,9 @@
         {
             if (this.browseOrAdd == "addProduct")
             {
-                this.Writer.Write("Enter username: ");
-                string userName = this.Reader.ReadLine();
-                this.Writer.Write("Enter password: ");
-                string password = this.Reader.ReadLine();
+                IList<string> usernameAndPasword = new List<string>(this.dataCollector.GetLoginDetails());
 
-                if (userName != Constants.AdminUsername || password != Constants.AdminPassword)
+                if (usernameAndPasword[0] != Constants.AdminUsername || usernameAndPasword[1] != Constants.AdminPassword)
                 {
                     this.Color.ForegroundColor(ConsoleColor.Red);
                     throw new InvalidUsernamerOrPasswordException();

@@ -62,5 +62,17 @@
 
             return customerDetails;
         }
+
+        public IList<string> GetLoginDetails()
+        {
+            IList<string> result = new List<string>();
+
+            this.Writer.Write("Enter Username: ");
+            result.Add(this.Reader.ReadLine().Trim());
+            this.Writer.Write("Enter Password: ");
+            result.Add(this.Reader.ReadLine().Trim());
+
+            return result;
+        }
     }
 }

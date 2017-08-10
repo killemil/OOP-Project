@@ -7,5 +7,7 @@
         IList<string> GetProductData(string category, string subCategory);
 
         IList<string> GetCustomerDetails();
+
+        IList<string> GetLoginDetails();
     }
 }
