@@ -5,9 +5,9 @@
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Customers;
 
-    public static class CustomerFactory
+    public class CustomerFactory
     {
-        public static ICustomer CreateCustomer(IList<string> customerData, IProduct product)
+        public ICustomer CreateCustomer(IList<string> customerData, IProduct product)
         {
             string name = customerData[0];
             string address = customerData[1];

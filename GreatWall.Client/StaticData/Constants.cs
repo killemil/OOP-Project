@@ -10,6 +10,10 @@
         public const char TopLeftAngle = '\u2554';
         public const char TopRightAngle = '\u2557';
         public const char BottomLeftAngle = '\u255A';
+        public const string MainMenuLabel = "MainMenu";
+        public const string SubCategoryLabel = "SubCategory";
+        public const string AddProductLabel = "AddProduct";
+        public const string BrowseLabel = "Browse";
         public const string ClassesNamespace = "GreatWall.Entities.Entities.TechProducts.";
         public const string AssemblyName = ", GreatWall.Entities";
         public const string SuccesfullyAddedProduct = "Succesfully added a product.";

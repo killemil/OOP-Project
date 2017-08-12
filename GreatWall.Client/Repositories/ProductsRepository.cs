@@ -4,10 +4,8 @@
     using System.Linq;
     using GreatWall.Client.Factory;
     using GreatWall.Client.SeedData;
-    using GreatWall.Entities.Entities.Console;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
-    using GreatWall.Entities.Interfaces.Console;
     using GreatWall.Entities.Interfaces.Customers;
     using GreatWall.Entities.Interfaces.Repository;
 
@@ -15,15 +13,22 @@
     {
         private IList<IProduct> products;
         private IList<ICustomer> customers;
-        private IWriter writer;
-        private IReader reader;
+        private ProductFactory productFactory;
+        private CustomerFactory customerFactory;
 
-        public ProductsRepository()
+        public ProductsRepository(ProductFactory productFactory, CustomerFactory customerFactory)
         {
-            this.Products = new List<IProduct>(ProductsSeed.SeedData());
-            this.Customers = new List<ICustomer>(CustomersSeed.Seed(this.Products));
-            this.reader = new ConsoleReader();
-            this.writer = new ConsoleWriter();
+            this.productFactory = productFactory;
+            this.customerFactory = customerFactory;
+            this.Products = new List<IProduct>();
+            this.Customers = new List<ICustomer>();
+        }
+
+        public ProductsRepository(ProductFactory productFactory, CustomerFactory customerFactory, ProductsSeeder productsSeed, CustomerSeeder customersSeed)
+            : this(productFactory, customerFactory)
+        {
+            this.Products = productsSeed.SeedData();
+            this.Customers = customersSeed.Seed(this.Products);
         }
 
         public IList<IProduct> Products
@@ -57,12 +62,12 @@
             string categoryStr = category.ToString();
             string subCategoryStr = subCategory.ToString();
 
-            this.Products.Add(ProductFactory.GetProduct(category, subCategory, productData));
+            this.Products.Add(this.productFactory.CreateProduct(category, subCategory, productData));
         }
 
         public void AddClient(IList<string> customerDetails, IProduct currentProduct)
         {
-            ICustomer customer = CustomerFactory.CreateCustomer(customerDetails, currentProduct);
+            ICustomer customer = this.customerFactory.CreateCustomer(customerDetails, currentProduct);
             this.Customers.Add(customer);
         }
 
@@ -86,5 +91,6 @@
 
             this.Products.First(p => p == currentProduct).Quantity -= quantity;
         }
+        
     }
 }

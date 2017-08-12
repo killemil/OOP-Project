@@ -6,9 +6,9 @@
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
     
-    public static class ProductsSeed
+    public class ProductsSeeder
     {
-        public static IList<IProduct> SeedData()
+        public IList<IProduct> SeedData()
         {
             List<IProduct> products = new List<IProduct>();
 
@@ -19,7 +19,7 @@
             return products;
         }
 
-        private static void AddBatteries(List<IProduct> products)
+        private void AddBatteries(List<IProduct> products)
         {
             foreach (var line in File.ReadLines(@"..\..\..\SeedData\Batteries.txt"))
             {
@@ -41,7 +41,7 @@
             }
         }
 
-        private static void AddMotherboards(List<IProduct> products)
+        private void AddMotherboards(List<IProduct> products)
         {
             foreach (var line in File.ReadLines(@"..\..\..\SeedData\Motherboards.txt"))
             {
@@ -64,7 +64,7 @@
             }
         }
 
-        private static void AddProcessors(List<IProduct> products)
+        private void AddProcessors(List<IProduct> products)
         {
             foreach (var line in File.ReadLines(@"..\..\..\SeedData\Processors.txt"))
             {

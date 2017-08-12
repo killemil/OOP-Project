@@ -9,9 +9,9 @@
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces;
 
-    public static class ProductFactory
+    public class ProductFactory
     {
-        public static IProduct GetProduct(Category category, SubCategory subCategory, IList<string> data)
+        public IProduct CreateProduct(Category category, SubCategory subCategory, IList<string> data)
         {
             string model = data[0];
             string manufacturer = data[1];

@@ -7,9 +7,9 @@
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Customers;
 
-    public static class CustomersSeed
+    public class CustomerSeeder
     {
-        public static IList<ICustomer> Seed(IList<IProduct> products)
+        public IList<ICustomer> Seed(IList<IProduct> products)
         {
             IList<ICustomer> customers = new List<ICustomer>();
             foreach (var line in File.ReadLines(@"..\..\..\SeedData\Customers.txt"))
