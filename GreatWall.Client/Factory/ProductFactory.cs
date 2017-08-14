@@ -27,7 +27,7 @@
                     return new Processor(manufacturer, quantity, price, color, model, data[6], int.Parse(data[7]), weight, size, category, subCategory);
                 case "Motherboards":
                     return new Motherboard(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], int.Parse(data[9]));
-                case "Batterys":
+                case "Batteries":
                     return new Battery(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8]);
                 case "Displays":
                     return new Display(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], bool.Parse(data[8]), data[9], data[10], data[11]);
@@ -37,11 +37,11 @@
                     return new HardDrive(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], double.Parse(data[10]), double.Parse(data[11]));
                 case "Laptops":
                     return new Laptop(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]);
-                case "Memorys":
+                case "Memories":
                     return new Memory(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9]);
                 case "PCs":
                     return new PC(manufacturer, quantity, price, color, model, weight, size, category, subCategory, data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]);
-                case "PowerSupplys":
+                case "PowerSupplies":
                     return new PowerSupply(manufacturer, quantity, price, color, model, weight, size, category, subCategory, int.Parse(data[7]));
                 case "Amplifiers":
                     return new Amplifier(model, manufacturer, quantity, price, color, weight, size, category, subCategory, int.Parse(data[7]), data[8], bool.Parse(data[9]), bool.Parse(data[10]));

@@ -21,7 +21,16 @@
 
         public IList<string> GetProductData(string currentCategoryStr, string currentSubCategoryStr)
         {
-            string className = currentSubCategoryStr.Substring(0, currentSubCategoryStr.Length - 1);
+            string className = string.Empty;
+            if (currentSubCategoryStr.EndsWith("ies"))
+            {
+                className = currentSubCategoryStr.Substring(0, currentSubCategoryStr.Length - 3) + "y";
+            }
+            else
+            {
+                className = currentSubCategoryStr.Substring(0, currentSubCategoryStr.Length - 1);
+            }
+
             Type currentClass = Type.GetType(Constants.ClassesNamespace + currentCategoryStr + "." + className + Constants.AssemblyName);
             PropertyInfo[] baseProperties = currentClass.BaseType.GetProperties();
             PropertyInfo[] currentClassProperties = currentClass.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);

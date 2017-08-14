@@ -510,56 +510,13 @@
 
         private void SelectSubCategories(int currentSelection, string actionType)
         {
-            if (currentSelection == 1)
-            {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Where(c => (int)c < 200)
-                    .Select(sc => sc.ToString())
-                    .ToList();
+            var subCategories = Enum.GetValues(typeof(SubCategory))
+                .OfType<SubCategory>()
+                .Where(c => (int)c > currentSelection * 100 && (int)c < (currentSelection * 100) + 100)
+                .Select(sc => sc.ToString())
+                .ToList();
 
-                this.ShowMenu(subCategories, actionType, currentSelection);
-            }
-            else if (currentSelection == 2)
-            {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Where(c => (int)c >= 201 && (int)c < 300)
-                    .Select(sc => sc.ToString())
-                    .ToList();
-
-                this.ShowMenu(subCategories, actionType, currentSelection);
-            }
-            else if (currentSelection == 3)
-            {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Where(c => (int)c >= 301 && (int)c < 400)
-                    .Select(sc => sc.ToString())
-                    .ToList();
-
-                this.ShowMenu(subCategories, actionType, currentSelection);
-            }
-            else if (currentSelection == 4)
-            {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Where(c => (int)c >= 401 && (int)c < 500)
-                    .Select(sc => sc.ToString())
-                    .ToList();
-
-                this.ShowMenu(subCategories, actionType, currentSelection);
-            }
-            else if (currentSelection == 5)
-            {
-                var subCategories = Enum.GetValues(typeof(SubCategory))
-                    .OfType<SubCategory>()
-                    .Where(c => (int)c >= 501 && (int)c < 600)
-                    .Select(sc => sc.ToString())
-                    .ToList();
-
-                this.ShowMenu(subCategories, actionType, currentSelection);
-            }
+            this.ShowMenu(subCategories, actionType, currentSelection);
         }
 
         private void PrintHeadLine(string category, string subCategory)

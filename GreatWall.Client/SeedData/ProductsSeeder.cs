@@ -35,7 +35,7 @@
                 string type = tokens[7];
                 string capacity = tokens[8];
                 Category category = Category.Computers;
-                SubCategory subCategory = SubCategory.Batterys;
+                SubCategory subCategory = SubCategory.Batteries;
 
                 products.Add(new Battery(manufacturer, quantity, price, color, model, weight, size, category, subCategory, type, capacity));
             }
