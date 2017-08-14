@@ -4,7 +4,7 @@
 
     public interface ICollector
     {
-        IList<string> GetProductData(string category, string subCategory);
+        IList<string> GetProductDetails(string category, string subCategory);
 
         IList<string> GetCustomerDetails();
 

@@ -19,7 +19,7 @@
 
         public IWriter Writer { get; set; }
 
-        public IList<string> GetProductData(string currentCategoryStr, string currentSubCategoryStr)
+        public IList<string> GetProductDetails(string currentCategoryStr, string currentSubCategoryStr)
         {
             string className = string.Empty;
             if (currentSubCategoryStr.EndsWith("ies"))

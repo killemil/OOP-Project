@@ -166,7 +166,7 @@
                 string categoryStr = category.ToString();
                 string subCategoryStr = subCategory.ToString();
                 this.PrintHeadLine(categoryStr, subCategoryStr);
-                IList<string> productData = this.dataCollector.GetProductData(categoryStr, subCategoryStr);
+                IList<string> productData = this.dataCollector.GetProductDetails(categoryStr, subCategoryStr);
                 this.productRepository.AddProduct(category, subCategory, productData);
 
                 this.color.ForegroundColor(ConsoleColor.Green);
@@ -301,7 +301,7 @@
 
         private void BrowseProducts(Category category, SubCategory subCategory)
         {
-            IList<IProduct> products = this.productRepository.GetProductData(subCategory);
+            IList<IProduct> products = this.productRepository.GetProductsBySubCategory(subCategory);
 
             int pageSize = 15;
             int currentPage = 0;

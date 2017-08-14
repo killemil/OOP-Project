@@ -12,9 +12,9 @@
         {
             List<IProduct> products = new List<IProduct>();
 
-            AddProcessors(products);
-            AddMotherboards(products);
-            AddBatteries(products);
+            this.AddProcessors(products);
+            this.AddMotherboards(products);
+            this.AddBatteries(products);
 
             return products;
         }

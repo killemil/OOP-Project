@@ -10,7 +10,7 @@
 
         void RemoveProduct(IProduct product, int quantity);
 
-        IList<IProduct> GetProductData(SubCategory subcategory);
+        IList<IProduct> GetProductsBySubCategory(SubCategory subcategory);
 
         void AddClient(IList<string> customerDetails, IProduct currentProduct);
 

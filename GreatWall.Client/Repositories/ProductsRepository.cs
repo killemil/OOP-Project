@@ -76,7 +76,7 @@
             return this.Customers.ToList();
         }
 
-        public IList<IProduct> GetProductData(SubCategory subcategory)
+        public IList<IProduct> GetProductsBySubCategory(SubCategory subcategory)
         {
             return this.Products.Where(p => p.SubCategory == subcategory).ToList();
         }
@@ -91,6 +91,5 @@
 
             this.Products.First(p => p == currentProduct).Quantity -= quantity;
         }
-        
     }
 }
