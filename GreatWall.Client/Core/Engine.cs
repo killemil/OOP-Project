@@ -42,10 +42,10 @@
 
         public void Run()
         {
-            this.ConsoleSize();
+            this.SetConsoleSize();
             try
             {
-                this.ShowMenu(this.menuItems, Constants.MainMenuLabel);
+                this.PrintMenuOptions(this.menuItems, Constants.MainMenuLabel);
             }
             catch (Exception e)
             {
@@ -56,7 +56,7 @@
             }
         }
 
-        private void ShowMenu(IList<string> list, string menu, params int[] categoryNumber)
+        private void PrintMenuOptions(IList<string> list, string menu, params int[] categoryNumber)
         {
             int pageSize = list.Count;
             int pointer = 1;
@@ -99,7 +99,7 @@
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
-                        this.ShowOtherMenu(pointer, menu, categoryNumber);
+                        this.PrintSubMenu(pointer, menu, categoryNumber);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -124,13 +124,13 @@
 
                         break;
                     case ConsoleKey.Escape:
-                        this.ShowMenu(this.menuItems, Constants.MainMenuLabel);
+                        this.PrintMenuOptions(this.menuItems, Constants.MainMenuLabel);
                         break;
                 }
             }
         }
 
-        private void ShowOtherMenu(int currentSelection, string menu, params int[] categoryNumber)
+        private void PrintSubMenu(int currentSelection, string menu, params int[] categoryNumber)
         {
             if (menu == Constants.MainMenuLabel)
             {
@@ -139,11 +139,11 @@
                     this.browseOrAdd = currentSelection == 1 ? Constants.AddProductLabel : Constants.BrowseLabel;
                     string[] categories = Enum.GetNames(typeof(Category));
                     this.LoginForAddingProduct();
-                    this.ShowMenu(categories, Constants.SubCategoryLabel, currentSelection);
+                    this.PrintMenuOptions(categories, Constants.SubCategoryLabel, currentSelection);
                 }
                 else if (currentSelection == 3)
                 {
-                    this.ShowSaleHistory();
+                    this.PrintSaleHistory();
                 }
                 else if (currentSelection == 5)
                 {
@@ -183,11 +183,11 @@
                 Category category = (Category)(categoryNumber[0] * 100);
                 SubCategory subCategory = (SubCategory)(currentSelection + (int)category);
 
-                this.BrowseProducts(category, subCategory);
+                this.PrintBrowseProductsMenu(category, subCategory);
             }
         }
 
-        private void ShowSaleHistory()
+        private void PrintSaleHistory()
         {
             IList<ICustomer> sales = this.productRepository.GetAllCustomers();
 
@@ -235,7 +235,7 @@
                         ICustomer currentSale = sales
                             .Skip((pageSize * currentPage) + pointer - 1)
                             .FirstOrDefault();
-                        this.ShowSaleDetails(currentSale);
+                        this.PrintSaleDetails(currentSale);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -268,12 +268,12 @@
             }
         }
 
-        private void ShowSaleDetails(ICustomer currentSale)
+        private void PrintSaleDetails(ICustomer currentSale)
         {
             this.consoleManipulator.BackgroundColor(ConsoleColor.Black);
             this.consoleManipulator.ForegroundColor(ConsoleColor.Yellow);
             this.consoleManipulator.Clear();
-            this.DrawDetailsView();
+            this.PrintDetailsGrid();
             this.consoleManipulator.SetCursorPosition(0, 1);
             this.writer.WriteLine(currentSale.ToString());
 
@@ -298,7 +298,7 @@
             }
         }
 
-        private void BrowseProducts(Category category, SubCategory subCategory)
+        private void PrintBrowseProductsMenu(Category category, SubCategory subCategory)
         {
             IList<IProduct> products = this.productRepository.GetProductsBySubCategory(subCategory);
 
@@ -362,7 +362,7 @@
                         IProduct currentProduct = products
                             .Skip((pageSize * currentPage) + pointer - 1)
                             .FirstOrDefault();
-                        this.ShowDetails(currentProduct);
+                        this.PrintProductDetails(currentProduct);
                         break;
                     case ConsoleKey.UpArrow:
                         if (pointer > 1)
@@ -395,19 +395,19 @@
             }
         }
 
-        private void ShowDetails(IProduct currentProduct)
+        private void PrintProductDetails(IProduct currentProduct)
         {
             this.consoleManipulator.BackgroundColor(ConsoleColor.Black);
             this.consoleManipulator.ForegroundColor(ConsoleColor.Yellow);
             this.consoleManipulator.Clear();
-            this.DrawDetailsView();
+            this.PrintDetailsGrid();
             this.consoleManipulator.SetCursorPosition(0, 1);
             this.writer.WriteLine(currentProduct.ToString());
 
-            this.ShowDetailsMenu(currentProduct);
+            this.PrintProductDetailsMenu(currentProduct);
         }
 
-        private void ShowDetailsMenu(IProduct currentProduct)
+        private void PrintProductDetailsMenu(IProduct currentProduct)
         {
             IList<string> detailsMenu = new List<string>
             {
@@ -446,7 +446,7 @@
                         else
                         {
                             this.consoleManipulator.Clear();
-                            this.DrawDetailsView();
+                            this.PrintDetailsGrid();
                             this.consoleManipulator.CursorTop(1);
                             IList<string> customerDetails = this.dataCollector.GetCustomerDetails();
                             this.SaleProduct(customerDetails, currentProduct);
@@ -500,7 +500,7 @@
             this.Run();
         }
 
-        private void DrawDetailsView()
+        private void PrintDetailsGrid()
         {
             this.writer.Write(Constants.TopLeftAngle + new string(Constants.HorizontalLine, (Console.BufferWidth / 2) - 4) + "Details" + new string(Constants.HorizontalLine, (Console.BufferWidth / 2) - 5) + Constants.TopRightAngle);
             this.consoleManipulator.SetCursorPosition(0, Console.BufferHeight - 2);
@@ -515,7 +515,7 @@
                 .Select(sc => sc.ToString())
                 .ToList();
 
-            this.ShowMenu(subCategories, actionType, currentSelection);
+            this.PrintMenuOptions(subCategories, actionType, currentSelection);
         }
 
         private void PrintHeadLine(string category, string subCategory)
@@ -536,7 +536,7 @@
             this.writer.WriteLine(sb.ToString());
         }
 
-        private void ConsoleSize()
+        private void SetConsoleSize()
         {
             Console.WindowHeight = 25;
             Console.BufferHeight = 25;
