@@ -3,8 +3,18 @@
     using System;
     using GreatWall.Entities.Interfaces.Console;
 
-    public class ConsoleCursor : ICursor
+    public class ConsoleManipulator : IConsoleManipulator
     {
+        public void BackgroundColor(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+        }
+
+        public void ForegroundColor(ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+        }
+
         public void Clear()
         {
             Console.Clear();

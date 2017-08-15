@@ -1,7 +1,13 @@
 ﻿namespace GreatWall.Entities.Interfaces.Console
 {
-    public interface ICursor
+    using System;
+
+    public interface IConsoleManipulator
     {
+        void ForegroundColor(ConsoleColor color);
+
+        void BackgroundColor(ConsoleColor color);
+
         void SetCursorPosition(int left, int top);
 
         void Clear();
