@@ -1,8 +1,8 @@
 ﻿namespace GreatWall.Entities.Interfaces.Repository
 {
+    using System.Collections.Generic;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.Customers;
-    using System.Collections.Generic;
 
     public interface IRepository
     {

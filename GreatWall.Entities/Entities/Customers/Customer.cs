@@ -1,17 +1,18 @@
 ﻿namespace GreatWall.Entities.Entities.Customers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Interfaces.Customers;
-    using System.Text;
-    using System.Linq;
 
     public class Customer : ICustomer
     {
         private string name;
         private string address;
         private string telephoneNumber;
-        private IDictionary<IProduct,int> products;
+        private IDictionary<IProduct, int> products;
 
         public Customer(string name, string address, string telephoneNumber)
         {
@@ -20,14 +21,21 @@
             this.TelephoneNumber = telephoneNumber;
             this.Products = new Dictionary<IProduct, int>();
         }
+
         public string Name
         {
             get
             {
                 return this.name;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Customer name is required!");
+                }
+
                 this.name = value;
             }
         }
@@ -38,8 +46,14 @@
             {
                 return this.address;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Customer address is required!");
+                }
+
                 this.address = value;
             }
         }
@@ -50,18 +64,25 @@
             {
                 return this.telephoneNumber;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Telephone number is required!");
+                }
+
                 this.telephoneNumber = value;
             }
         }
 
-        public IDictionary<IProduct,int> Products
+        public IDictionary<IProduct, int> Products
         {
             get
             {
                 return this.products;
             }
+
             private set
             {
                 this.products = value;

@@ -1,8 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.TVs
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class SmartTV : Product, ISmartTv
     {
@@ -13,8 +15,7 @@
         private string resolution;
         private int powerConsumption;
 
-        public SmartTV(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            bool has3DFunction, string operationalSystem, string displayType, string sizeInInches, string resolution, int powerConsumption)
+        public SmartTV(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, bool has3DFunction, string operationalSystem, string displayType, string sizeInInches, string resolution, int powerConsumption)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Has3DFuncton = has3DFunction;
@@ -31,6 +32,7 @@
             {
                 return this.has3DFunction;
             }
+
             private set
             {
                 this.has3DFunction = value;
@@ -43,8 +45,14 @@
             {
                 return this.operationalSystem;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.OperationalSystem)} is required!");
+                }
+
                 this.operationalSystem = value;
             }
         }
@@ -55,8 +63,14 @@
             {
                 return this.displayType;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplayType)} is required!");
+                }
+
                 this.displayType = value;
             }
         }
@@ -67,8 +81,14 @@
             {
                 return this.sizeInInches;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.SizeInInches)} is required!");
+                }
+
                 this.sizeInInches = value;
             }
         }
@@ -79,8 +99,14 @@
             {
                 return this.resolution;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Resolution)} is required!");
+                }
+
                 this.resolution = value;
             }
         }
@@ -91,8 +117,14 @@
             {
                 return this.powerConsumption;
             }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.PowerConsumption));
+                }
+
                 this.powerConsumption = value;
             }
         }

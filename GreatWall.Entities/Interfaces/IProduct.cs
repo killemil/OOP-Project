@@ -1,7 +1,7 @@
-﻿using GreatWall.Entities.Enumerations;
-
-namespace GreatWall.Entities.Interfaces
+﻿namespace GreatWall.Entities.Interfaces
 {
+    using GreatWall.Entities.Enumerations;
+
     public interface IProduct
     {
         string Model { get; }

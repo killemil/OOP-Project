@@ -1,8 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class MediaPlayer : Product, IMediaPlayer
     {
@@ -23,25 +25,62 @@
         public bool HasRadio
         {
             get { return this.hasRadio; }
-            set { this.hasRadio = value; }
+
+            private set { this.hasRadio = value; }
         }
 
         public string Resolution
         {
-            get { return this.resolution; }
-            set { this.resolution = value; }
+            get
+            {
+                return this.resolution;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.resolution)} is required");
+                }
+
+                this.resolution = value;
+            }
         }
 
         public int Capacity
         {
-            get { return this.capacity; }
-            set { this.capacity = value; }
+            get
+            {
+                return this.capacity;
+            }
+
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException($"{nameof(this.Capacity)}");
+                }
+
+                this.capacity = value;
+            }
         }
 
         public string Type
         {
-            get { return this.type; }
-            set { this.type = value; }
+            get
+            {
+                return this.type;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Type)} is required!");
+                }
+
+                this.type = value;
+            }
         }
 
         public override string ToString()
@@ -57,4 +96,3 @@
         }
     }
 }
-

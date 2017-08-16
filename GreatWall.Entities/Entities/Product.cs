@@ -1,9 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities
 {
+    using System;
     using System.Text;
     using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces;
     using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces;
 
     public abstract class Product : IProduct
     {
@@ -17,7 +18,7 @@
         private Category category;
         private SubCategory subCategory;
 
-        public Product(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory)
+        protected Product(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory)
         {
             this.Manufacturer = manufacturer;
             this.Quantity = quantity;
@@ -32,8 +33,20 @@
 
         public string Model
         {
-            get { return this.model; }
-            private set { this.model = value; }
+            get
+            {
+                return this.model;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Model)} is required!");
+                }
+
+                this.model = value;
+            }
         }
 
         public string Manufacturer
@@ -42,8 +55,14 @@
             {
                 return this.manufacturer;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Manufacturer)} is required!");
+                }
+
                 this.manufacturer = value;
             }
         }
@@ -54,12 +73,14 @@
             {
                 return this.quantity;
             }
+
             set
             {
                 if (value <= 0)
                 {
-                    throw new NegativeNumberException($"The {nameof(this.Quantity)} cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Quantity));
                 }
+
                 this.quantity = value;
             }
         }
@@ -70,12 +91,14 @@
             {
                 return this.price;
             }
+
             private set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
-                    throw new NegativeNumberException($"The {nameof(this.Price)} cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Price));
                 }
+
                 this.price = value;
             }
         }
@@ -86,8 +109,14 @@
             {
                 return this.color;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Color)} is required!");
+                }
+
                 this.color = value;
             }
         }
@@ -98,12 +127,14 @@
             {
                 return this.weight;
             }
+
             private set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
-                    throw new NegativeNumberException($"The { nameof(this.Weight) } cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Weight));
                 }
+
                 this.weight = value;
             }
         }
@@ -114,8 +145,14 @@
             {
                 return this.size;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Size)} is required!");
+                }
+
                 this.size = value;
             }
         }
@@ -126,6 +163,7 @@
             {
                 return this.category;
             }
+
             private set
             {
                 this.category = value;
@@ -138,13 +176,13 @@
             {
                 return this.subCategory;
             }
-            set
+
+            private set
             {
                 this.subCategory = value;
             }
         }
-
-
+        
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

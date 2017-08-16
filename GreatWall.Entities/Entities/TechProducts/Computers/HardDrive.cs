@@ -1,8 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class HardDrive : Product, IHardDrive
     {
@@ -12,8 +14,7 @@
         private double hardDriveWriteSpeed;
         private double hardDriveReadSpeed;
 
-        public HardDrive(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string hardDriveType, string hardDriveCapacity, string hardDriveInterface, double hardDriveWriteSpeed, double hardDriveReadSpeed)
+        public HardDrive(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string hardDriveType, string hardDriveCapacity, string hardDriveInterface, double hardDriveWriteSpeed, double hardDriveReadSpeed)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.HardDriveType = hardDriveType;
@@ -25,28 +26,92 @@
 
         public string HardDriveType
         {
-            get { return this.hardDriveType; }
-            private set { this.hardDriveType = value; }
+            get
+            {
+                return this.hardDriveType;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.HardDriveType)} is required!");
+                }
+
+                this.hardDriveType = value;
+            }
         }
+
         public string HardDriveCapacity
         {
-            get { return this.hardDriveCapacity; }
-            private set { this.hardDriveCapacity = value; }
+            get
+            {
+                return this.hardDriveCapacity;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.HardDriveCapacity)} is required!");
+                }
+
+                this.hardDriveCapacity = value;
+            }
         }
+
         public string HardDriveInterface
         {
-            get { return this.hardDriveInterface; }
-            private set { this.hardDriveInterface = value; }
+            get
+            {
+                return this.hardDriveInterface;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.HardDriveInterface)} is required!");
+                }
+
+                this.hardDriveInterface = value;
+            }
         }
+
         public double HardDriveWriteSpeed
         {
-            get { return this.hardDriveWriteSpeed; }
-            private set { this.hardDriveWriteSpeed = value; }
+            get
+            {
+                return this.hardDriveWriteSpeed;
+            }
+
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.HardDriveWriteSpeed));
+                }
+
+                this.hardDriveWriteSpeed = value;
+            }
         }
+
         public double HardDriveReadSpeed
         {
-            get { return this.hardDriveReadSpeed; }
-            private set { this.hardDriveReadSpeed = value; }
+            get
+            {
+                return this.hardDriveReadSpeed;
+            }
+
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.HardDriveReadSpeed));
+                }
+
+                this.hardDriveReadSpeed = value;
+            }
         }
 
         public override string ToString()

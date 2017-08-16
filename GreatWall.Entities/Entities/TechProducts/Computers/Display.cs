@@ -1,8 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
+    using System;
+    using System.Text;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using System.Text;
 
     public class Display : Product, IDisplay
     {
@@ -12,8 +13,7 @@
         private string displaySizeInInches;
         private string colors;
 
-        public Display(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string displayType, bool hasTouchScreen, string displayResolution, string displaySizeInInches, string colors)
+        public Display(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string displayType, bool hasTouchScreen, string displayResolution, string displaySizeInInches, string colors)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.DisplayType = displayType;
@@ -29,8 +29,14 @@
             {
                 return this.displayType;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplayType)} is required!");
+                }
+
                 this.displayType = value;
             }
         }
@@ -41,6 +47,7 @@
             {
                 return this.hasTouchScreen;
             }
+
             private set
             {
                 this.hasTouchScreen = value;
@@ -53,8 +60,14 @@
             {
                 return this.displayResolution;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplayResolution)} is required!");
+                }
+
                 this.displayResolution = value;
             }
         }
@@ -65,8 +78,14 @@
             {
                 return this.displaySizeInInches;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplaySizeInInches)} is required!");
+                }
+
                 this.displaySizeInInches = value;
             }
         }
@@ -77,8 +96,14 @@
             {
                 return this.colors;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Colors)} is required!");
+                }
+
                 this.colors = value;
             }
         }

@@ -1,8 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class PowerSupply : Product, IPowerSupply
     {
@@ -20,8 +21,14 @@
             {
                 return this.power;
             }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.Power));
+                }
+
                 this.power = value;
             }
         }

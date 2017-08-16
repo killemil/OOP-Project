@@ -1,16 +1,16 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
+    using System;
+    using System.Text;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using System.Text;
 
     public class Battery : Product, IBattery
     {
         private string batteryType;
         private string batteryCapacity;
 
-        public Battery(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string batteryType, string batteryCapacity)
+        public Battery(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string batteryType, string batteryCapacity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.BatteryType = batteryType;
@@ -19,13 +19,38 @@
 
         public string BatteryType
         {
-            get { return this.batteryType; }
-            private set { this.batteryType = value; }
+            get
+            {
+                return this.batteryType;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.BatteryType)} is required!");
+                }
+
+                this.batteryType = value;
+            }
         }
+
         public string BatteryCapacity
         {
-            get { return this.batteryCapacity; }
-            private set { this.batteryCapacity = value; }
+            get
+            {
+                return this.batteryCapacity;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.BatteryCapacity)} is required!");
+                }
+
+                this.batteryCapacity = value;
+            }
         }
 
         public override string ToString()

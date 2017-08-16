@@ -10,7 +10,7 @@
 
         string TelephoneNumber { get; }
 
-        IDictionary<IProduct,int> Products { get; }
+        IDictionary<IProduct, int> Products { get; }
 
         void AddProduct(IProduct product, int quantity);
     }

@@ -5,6 +5,5 @@
         string Type { get; }
 
         int Sensitivity { get; }
-
     }
 }

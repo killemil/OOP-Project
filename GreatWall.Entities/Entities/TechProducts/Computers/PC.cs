@@ -1,8 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
+    using System;
+    using System.Text;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using System.Text;
 
     public class PC : Product, IPC
     {
@@ -15,8 +16,7 @@
         private string operationalSystem;
         private string powerSupply;
 
-        public PC(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string motherboard, string processor, string operationalMemory, string graphicCard, string internalMemory, string opticalDrive, string operationalSystem, string powerSupply)
+        public PC(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string motherboard, string processor, string operationalMemory, string graphicCard, string internalMemory, string opticalDrive, string operationalSystem, string powerSupply)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Motherboard = motherboard;
@@ -35,8 +35,14 @@
             {
                 return this.motherboard;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Motherboard)} is required!");
+                }
+
                 this.motherboard = value;
             }
         }
@@ -47,8 +53,14 @@
             {
                 return this.processor;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Processor)} is required!");
+                }
+
                 this.processor = value;
             }
         }
@@ -59,8 +71,14 @@
             {
                 return this.operationalMemory;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.OperationalMemory)} is required!");
+                }
+
                 this.operationalMemory = value;
             }
         }
@@ -71,8 +89,14 @@
             {
                 return this.graphicCard;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.GraphicCard)} is required!");
+                }
+
                 this.graphicCard = value;
             }
         }
@@ -83,8 +107,14 @@
             {
                 return this.internalMemory;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.InternalMemory)} is required!");
+                }
+
                 this.internalMemory = value;
             }
         }
@@ -95,8 +125,14 @@
             {
                 return this.opticalDrive;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.OpticalDrive)} is required!");
+                }
+
                 this.opticalDrive = value;
             }
         }
@@ -107,8 +143,14 @@
             {
                 return this.operationalSystem;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.OperationalSystem)} is required!");
+                }
+
                 this.operationalSystem = value;
             }
         }
@@ -119,8 +161,14 @@
             {
                 return this.powerSupply;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.PowerSupply)} is required!");
+                }
+
                 this.powerSupply = value;
             }
         }

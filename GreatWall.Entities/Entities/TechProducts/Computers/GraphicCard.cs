@@ -1,9 +1,9 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Computers
 {
     using System;
+    using System.Text;
     using GreatWall.Entities.Enumerations;
     using GreatWall.Entities.Interfaces.TechInterfaces;
-    using System.Text;
 
     public class GraphicCard : Product, IGraphicCard
     {
@@ -11,8 +11,7 @@
         private string memoryType;
         private string memoryCapacity;
 
-        public GraphicCard(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string slotType, string memoryType, string memoryCapacity)
+        public GraphicCard(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string slotType, string memoryType, string memoryCapacity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.SlotType = slotType;
@@ -26,6 +25,7 @@
             {
                 return this.slotType;
             }
+
             private set
             {
                 this.slotType = value;
@@ -38,8 +38,14 @@
             {
                 return this.memoryType;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemoryType)} is required!");
+                }
+
                 this.memoryType = value;
             }
         }
@@ -50,8 +56,14 @@
             {
                 return this.memoryCapacity;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemoryCapacity)} is required!");
+                }
+
                 this.memoryCapacity = value;
             }
         }

@@ -1,10 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Cameras
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
 
-    public class VideoCamera : Product, IVideoCamera
+    public class VideoCamera : Product
     {
         private string batteryType;
         private string batteryCapacity;
@@ -14,10 +14,7 @@
         private string lensDesign;
         private string lensManufacturer;
 
-        public VideoCamera(string batteryType, string batteryCapacity, string memoryType, string memorySpeed,
-            string memoryCapacity, string lensDesign, string lensManufacturer,
-            string manufacturer, int quantity, decimal price, string color, string model,
-            double weight, string size, Category category, SubCategory subCategory)
+        public VideoCamera(string batteryType, string batteryCapacity, string memoryType, string memorySpeed, string memoryCapacity, string lensDesign, string lensManufacturer, string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.BatteryType = batteryType;
@@ -31,44 +28,128 @@
 
         public string BatteryType
         {
-            get { return this.batteryType; }
-            private set { this.batteryType = value; }
+            get
+            {
+                return this.batteryType;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.BatteryType)} is required!");
+                }
+
+                this.batteryType = value;
+            }
         }
 
         public string BatteryCapacity
         {
-            get { return this.batteryCapacity; }
-            private set { this.batteryCapacity = value; }
+            get
+            {
+                return this.batteryCapacity;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.BatteryCapacity)} is required!");
+                }
+
+                this.batteryCapacity = value;
+            }
         }
 
         public string MemoryType
         {
-            get { return this.memoryType; }
-            private set { this.memoryType = value; }
+            get
+            {
+                return this.memoryType;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemoryType)} is required!");
+                }
+
+                this.memoryType = value;
+            }
         }
 
         public string MemorySpeed
         {
-            get { return this.memorySpeed; }
-            private set { this.memorySpeed = value; }
+            get
+            {
+                return this.memorySpeed;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemorySpeed)} is required!");
+                }
+
+                this.memorySpeed = value;
+            }
         }
 
         public string MemoryCapacity
         {
-            get { return this.memoryCapacity; }
-            private set { this.memoryCapacity = value; }
+            get
+            {
+                return this.memoryCapacity;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemoryCapacity)} is required!");
+                }
+
+                this.memoryCapacity = value;
+            }
         }
 
         public string LensDesign
         {
-            get { return this.lensDesign; }
-            private set { this.lensDesign = value; }
+            get
+            {
+                return this.lensDesign;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.LensDesign)} is required!");
+                }
+
+                this.lensDesign = value;
+            }
         }
 
         public string LensManufacturer
         {
-            get { return this.lensManufacturer; }
-            private set { this.lensManufacturer = value; }
+            get
+            {
+                return this.lensManufacturer;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.LensManufacturer)} is required!");
+                }
+
+                this.lensManufacturer = value;
+            }
         }
 
         public override string ToString()

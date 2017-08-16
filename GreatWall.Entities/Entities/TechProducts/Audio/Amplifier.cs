@@ -1,9 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
     using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Amplifier : Product, IAmplifier
     {
@@ -12,9 +13,8 @@
         private bool hasTuner;
         private bool hasRemoteControl;
 
-        public Amplifier(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory,
-             int power, string channels, bool hasTuner, bool hasRemoteControl)
-            : base(manufacturer,quantity,price,color,model,weight,size,category,subCategory)
+        public Amplifier(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory, int power, string channels, bool hasTuner, bool hasRemoteControl)
+            : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Power = power;
             this.Channels = channels;
@@ -24,13 +24,18 @@
 
         public int Power
         {
-            get { return this.power; }
+            get
+            {
+                return this.power;
+            }
+
             private set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
-                    throw new ArgumentException("Power cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Power));
                 }
+
                 this.power = value;
             }
         }
@@ -41,8 +46,14 @@
             {
                 return this.channels;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(Channels)} are required!");
+                }
+
                 this.channels = value;
             }
         }
@@ -53,6 +64,7 @@
             {
                 return this.hasTuner;
             }
+
             private set
             {
                 this.hasTuner = value;
@@ -65,6 +77,7 @@
             {
                 return this.hasRemoteControl;
             }
+
             private set
             {
                 this.hasRemoteControl = value;

@@ -5,6 +5,5 @@
         bool Has3DFuncton { get; }
 
         string OperationalSystem { get; }
-        
     }
 }

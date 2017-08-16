@@ -1,9 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
-    using GreatWall.Entities.Interfaces.TechInterfaces;
-    using GreatWall.Entities.Enumerations;
     using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Speaker : Product, ISpeaker
     {
@@ -11,9 +12,7 @@
         private string type;
         private int sensitivity;
 
-
-        public Speaker(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory,
-             int power, string type, int sensitivity)
+        public Speaker(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory, int power, string type, int sensitivity)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Power = power;
@@ -23,19 +22,36 @@
 
         public int Sensitivity
         {
-            get { return this.sensitivity; }
-            set { this.sensitivity = value; }
+            get
+            {
+                return this.sensitivity;
+            }
+
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.Sensitivity));
+                }
+
+                this.sensitivity = value;
+            }
         }
 
         public int Power
         {
-            get { return this.power; }
-            set
+            get
             {
-                if (value <= 0)
+                return this.power;
+            }
+
+            private set
+            {
+                if (value < 0)
                 {
-                    throw new ArgumentException("Power cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Power));
                 }
+
                 this.power = value;
             }
         }
@@ -46,8 +62,14 @@
             {
                 return this.type;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Type)} is required!");
+                }
+
                 this.type = value;
             }
         }

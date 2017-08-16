@@ -1,8 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Phones
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class SmartPhone : Product, ISmartPhone
     {
@@ -17,8 +19,7 @@
         private string networkCompatibility;
         private int batteryCapacity;
 
-        public SmartPhone(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string simCardType, string memorySlot, string networkCompatibility, int batteryCapacity, string procesor, string ramMemory, string internalMemory, string displayType, string displaySize, string operationalSystem)
+        public SmartPhone(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string simCardType, string memorySlot, string networkCompatibility, int batteryCapacity, string procesor, string ramMemory, string internalMemory, string displayType, string displaySize, string operationalSystem)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Processor = procesor;
@@ -39,8 +40,14 @@
             {
                 return this.processor;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Processor)} is required!");
+                }
+
                 this.processor = value;
             }
         }
@@ -51,8 +58,14 @@
             {
                 return this.ramMemory;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.RamMemory)} is required!");
+                }
+
                 this.ramMemory = value;
             }
         }
@@ -63,8 +76,14 @@
             {
                 return this.internalMemory;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.InternalMemory)} is required!");
+                }
+
                 this.internalMemory = value;
             }
         }
@@ -75,8 +94,14 @@
             {
                 return this.displayType;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplayType)} is required!");
+                }
+
                 this.displayType = value;
             }
         }
@@ -87,8 +112,14 @@
             {
                 return this.displaySize;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplaySize)} is required!");
+                }
+
                 this.displaySize = value;
             }
         }
@@ -99,28 +130,70 @@
             {
                 return this.operationalSystem;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.OperationalSystem)} is required!");
+                }
+
                 this.operationalSystem = value;
             }
         }
 
         public string SimCardType
         {
-            get { return this.simCardType; }
-            private set { this.simCardType = value; }
+            get
+            {
+                return this.simCardType;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.SimCardType)} is required!");
+                }
+
+                this.simCardType = value;
+            }
         }
 
         public string MemorySlot
         {
-            get { return this.memorySlot; }
-            private set { this.memorySlot = value; }
+            get
+            {
+                return this.memorySlot;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.MemorySlot)} is required!");
+                }
+
+                this.memorySlot = value;
+            }
         }
 
         public string NetworkCompatibility
         {
-            get { return this.networkCompatibility; }
-            private set { this.networkCompatibility = value; }
+            get
+            {
+                return this.networkCompatibility;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.NetworkCompatibility)} is required!");
+                }
+
+                this.networkCompatibility = value;
+            }
         }
 
         public int BatteryCapacity
@@ -129,8 +202,14 @@
             {
                 return this.batteryCapacity;
             }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.BatteryCapacity));
+                }
+
                 this.batteryCapacity = value;
             }
         }

@@ -1,8 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.TVs
 {
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
+    using System;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class TV : Product, ITv
     {
@@ -11,8 +13,7 @@
         private string resolution;
         private int powerConsumption;
 
-        public TV(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory,
-            string displayType, string sizeInInches, string resolution, int powerConsumption)
+        public TV(string manufacturer, int quantity, decimal price, string color, string model, double weight, string size, Category category, SubCategory subCategory, string displayType, string sizeInInches, string resolution, int powerConsumption)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.DisplayType = displayType;
@@ -27,8 +28,14 @@
             {
                 return this.displayType;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.DisplayType)} is required!");
+                }
+
                 this.displayType = value;
             }
         }
@@ -39,8 +46,14 @@
             {
                 return this.sizeInInches;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.SizeInInches)} is required!");
+                }
+
                 this.sizeInInches = value;
             }
         }
@@ -51,8 +64,14 @@
             {
                 return this.resolution;
             }
+
             private set
             {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException($"{nameof(this.Resolution)} is required!");
+                }
+
                 this.resolution = value;
             }
         }
@@ -63,8 +82,14 @@
             {
                 return this.powerConsumption;
             }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.PowerConsumption));
+                }
+
                 this.powerConsumption = value;
             }
         }
@@ -82,4 +107,3 @@
         }
     }
 }
-

@@ -1,9 +1,10 @@
 ﻿namespace GreatWall.Entities.Entities.TechProducts.Audio
 {
     using System;
-    using GreatWall.Entities.Enumerations;
-    using GreatWall.Entities.Interfaces.TechInterfaces;
     using System.Text;
+    using GreatWall.Entities.Enumerations;
+    using GreatWall.Entities.Exceptions;
+    using GreatWall.Entities.Interfaces.TechInterfaces;
 
     public class Headphone : Product, IHeadphone
     {
@@ -12,8 +13,7 @@
         private bool hasCable;
         private double diameter;
 
-        public Headphone(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory,
-             int power, int signalFrequency, bool hasCable, double diameter)
+        public Headphone(string model, string manufacturer, int quantity, decimal price, string color, double weight, string size, Category category, SubCategory subCategory, int power, int signalFrequency, bool hasCable, double diameter)
             : base(manufacturer, quantity, price, color, model, weight, size, category, subCategory)
         {
             this.Power = power;
@@ -24,22 +24,36 @@
 
         public int SignalFrequency
         {
-            get { return this.signalFrequency; }
+            get
+            {
+                return this.signalFrequency;
+            }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.SignalFrequency));
+                }
+
                 this.signalFrequency = value;
             }
         }
 
         public int Power
         {
-            get { return this.power; }
+            get
+            {
+                return this.power;
+            }
+
             private set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
-                    throw new ArgumentException("Power cannot be negative number!");
+                    throw new NegativeNumberException(nameof(this.Power));
                 }
+
                 this.power = value;
             }
         }
@@ -50,6 +64,7 @@
             {
                 return this.hasCable;
             }
+
             private set
             {
                 this.hasCable = value;
@@ -62,8 +77,14 @@
             {
                 return this.diameter;
             }
+
             private set
             {
+                if (value < 0)
+                {
+                    throw new NegativeNumberException(nameof(this.Diameter));
+                }
+
                 this.diameter = value;
             }
         }
